@@ -7,34 +7,30 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class WriteToCSV {
-    public static void writeDataToCSV(String filePath)
-    {
-        // first create file object for file placed at location
-        // specified by filepath
-        File file = new File(filePath);
-        try {
-            // create FileWriter object with file as parameter
-            FileWriter outputFile = new FileWriter(file);
+    // first create file object for file placed at location
+    // specified by filepath
+    private static File file;
+    // create FileWriter object with file as parameter
 
-            // create CSVWriter object filewriter object as parameter
-            CSVWriter writer = new CSVWriter(outputFile);
+    public static void writeDataToCSV(String filePath) throws IOException {
 
-            // adding header to csv
-            String[] header = { "Name", "Class", "Marks" };
-            writer.writeNext(header);
+        file = new File(filePath);
+        FileWriter outputFile = new FileWriter(file);
+        // create CSVWriter object fileWriter object as parameter
+        CSVWriter writer = new CSVWriter(outputFile);
 
-            // add data to csv
-            String[] data1 = { "Aman", "10", "620" };
-            writer.writeNext(data1);
-            String[] data2 = { "Suraj", "10", "630" };
-            writer.writeNext(data2);
+        // adding header to csv
+        String[] header = {"Name", "Class", "Marks"};
+        writer.writeNext(header);
 
-            // closing writer connection
-            writer.close();
-        }
-        catch (IOException | IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // add data to csv
+        String[] data1 = {"Aman", "10", "620"};
+        writer.writeNext(data1);
+        String[] data2 = {"Suraj", "10", "630"};
+        writer.writeNext(data2);
+
+        // closing writer connection
+        writer.close();
+
     }
 }
