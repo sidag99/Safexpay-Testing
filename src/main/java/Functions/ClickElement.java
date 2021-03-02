@@ -1,0 +1,131 @@
+package Functions;
+import org.openqa.selenium.*;
+import org.openqa.selenium.interactions.Actions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+/*
+ void clickWithJavaScriptByWebElement(WebDriver driver, WebElement element)    //Zooms out the page and scrolls to view the element, then clicks on it
+
+ void clickWithJavaScriptByXpath(WebDriver driver, String xpath)   //Takes the xpath and clicks on it(Zooms out the page and scrolls to view the element)
+
+ void waitAndClickByXpath(WebDriver driver, String xpath)  //Waits for element to load and then clicks on it (Takes Xpath)
+
+ void waitAndClickById(WebDriver driver, String id)  //Waits for element to load and then clicks on it (Takes id)
+
+ void sendKeysByXpath(WebDriver driver, String xpath,String sendKey)  //Waits for element to load and Sends or writes a string after locating the Xpath
+
+ void sendKeysById(WebDriver driver, String id, String sendKey)  //Waits for element to load and Sends or writes a string after locating the id
+
+ void waitForElementXpath(WebDriver driver, String xpath)  //Delays the test for the element to load
+
+ boolean isPresentElement(WebDriver driver, String class)  //checks if an element is present by class
+
+ void clickByXpath(WebDriver driver, String xpath)  //clicks on the mentioned xpath
+
+*/
+
+public class ClickElement {
+
+    public static void clickWithJavaScriptByWebElement(WebDriver driver, WebElement element) {
+
+        try {
+
+            driver.switchTo().defaultContent();
+            WebElement html = driver.findElement(By.tagName("html"));
+            html.sendKeys(Keys.chord(Keys.CONTROL, Keys.SUBTRACT));
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            executor.executeScript("arguments[0].scrollIntoView()", element);
+            executor.executeScript("arguments[0].click();", element);
+
+        } catch (Exception e) {
+            System.out.println("Unable to click element\n\n"+e.getMessage());
+        }
+        try {
+
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element).click().build().perform();
+
+        } catch (Exception e) {}
+    }
+
+    public static void clickWithJavaScriptByXpath(WebDriver driver, String xpath) {
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+
+        try {
+
+            driver.switchTo().defaultContent();
+            WebElement html = driver.findElement(By.tagName("html"));
+            html.sendKeys(Keys.chord(Keys.CONTROL, Keys.SUBTRACT));
+            JavascriptExecutor executor = (JavascriptExecutor) driver;
+            executor.executeScript("arguments[0].scrollIntoView()", element);
+            executor.executeScript("arguments[0].click();", element);
+
+        } catch (Exception e) {
+            System.out.println("Unable to click element\n\n"+e.getMessage());
+        }
+        try {
+
+            Actions actions = new Actions(driver);
+            actions.moveToElement(element).click().build().perform();
+
+        } catch (Exception e) {}
+    }
+
+    public static void waitAndClickByXpath(WebDriver driver, String xpath) {
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+        element.click();
+    }
+
+    public static void waitAndClickById(WebDriver driver, String id) {
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.id(id)));
+        element.click();
+    }
+    public static void sendKeysByXpath(WebDriver driver, String xpath,String sendKey) {
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+        element.sendKeys(sendKey);
+        element.sendKeys(Keys.RETURN);
+    }
+
+    public static void sendKeysById(WebDriver driver, String id, String sendKey) {
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.id(id)));
+        element.sendKeys(sendKey);
+        element.sendKeys(Keys.RETURN);
+    }
+
+    public static void waitForElementXpath(WebDriver driver, String xpath) {
+        WebDriverWait wait = new WebDriverWait(driver, 100);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+    }
+    public static boolean waitForElementXpathToLoad(WebDriver driver, String xpath) {
+        WebDriverWait wait = new WebDriverWait(driver, 10);
+        try{WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+        return true;}
+        catch (Exception e){
+            return false;
+        }
+    }
+
+    public static boolean isPresentElementByClass(WebDriver driver, String classname) {
+        try {
+            return driver.findElement(By.className(classname)).isDisplayed();
+        }catch (Exception e){
+            return false;
+        }
+    }
+
+
+
+    public static void clickByXpath(WebDriver driver, String xpath){
+        driver.findElement(By.xpath(xpath)).click();
+    }
+    public static void clickById(WebDriver driver, String id){
+        driver.findElement(By.id(id)).click();
+    }
+
+}
