@@ -21,6 +21,7 @@ import java.util.Arrays;
 import static Functions.ClickElement.*;
 import static Functions.Driver.driverAllocation;
 import static Reports.AllureReport.*;
+import static Functions.CreateNameByTimestamp.*;
 
 public class AdminFlow {
     static WebDriver driver;
@@ -46,7 +47,6 @@ public class AdminFlow {
     }
 
     @Step("Opening Safexpay website")
-    @Description("In this method we are opening application")
     public void openUrl(String url){
         String URL= url;
         driver.get(URL);  //Opening the link
@@ -54,7 +54,6 @@ public class AdminFlow {
     }
 
     @Step("Logging in")
-    @Description("In this method we are logging in")
     public void login(String username, String password) throws InterruptedException {
 
         saveTextLog("Username: " + username);
@@ -69,6 +68,41 @@ public class AdminFlow {
         Thread.sleep(1000);
         Screenshot(driver, "Login Successful");  //Saving Screenshot for allure report
     }
+
+    @Test(priority=1, description = "Merchant Creation Flow")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Merchant Creation Flow")
+    public void createMerchant() throws InterruptedException {
+        openCreateMerchant();
+    }
+
+    @Step("Opening Create Merchant")
+    public void openCreateMerchant() throws InterruptedException {
+        waitAndClickByXpath(driver,"//*[@id=\"js-side-menu-1\"]");
+        Thread.sleep(1000);
+        clickByXpath(driver,"//*[@id=\"js-side-menu-1\"]/ul/li[1]/a");
+    }
+
+    @Step("Fill Business Details Form")
+    public void fillBusinessDetailsForm() throws InterruptedException {
+        waitForElementXpath(driver,"//*[@id=\"BusinessDetails\"]/form/div[1]/div[2]/div/input");
+        Thread.sleep(1000);
+        String testName= "test_"+getTimestamp();
+        sendKeysByXpath(driver,"//*[@ng-model=\"name\"]", testName);
+    }
+
+    @Test(priority=2, description = "User Creation Flow")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("User Creation Flow")
+    public void createUser(){
+     clickByXpath(driver,"//*[@id=\"js-side-menu-1\"]");
+     clickByXpath(driver,"//*[@id=\"js-side-menu-1\");
+
+    }
+
+
+
+
 
 
 }

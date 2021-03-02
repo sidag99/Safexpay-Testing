@@ -5,27 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e96acda6-b8dc-4098-8b1b-45616e6c8908" name="Default Changelist" comment="setup">
-      <change afterPath="$PROJECT_DIR$/Configuration_Files/Admin_Credentials.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/142c389a-257b-4d6e-b047-8225c95ab65b-attachment" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/33bbc782-9bbf-42b2-97c1-c1ebd2cd3956-result.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/51cb9128-fc08-463c-81b3-acbec47bdedc-attachment" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/5ecdb8a3-f475-496d-b5fc-0d927484dde1-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/7c6db57c-37c4-4fac-a92b-04fa7ff9d63b-attachment" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/9610882e-598f-4802-a33a-2261772ddb2d-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/b6ee4dd3-46e1-4de5-8529-c6dd10bc7cf7-attachment" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/d8d0de67-55ed-48c9-b3d8-e368b5b68ba7-container.json" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/allure-results/edb27356-48fd-49c9-a965-3087c599f345-attachment" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ReadFiles/WriteToCSV.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Drivers/chromedriver.exe" beforeDir="false" afterPath="$PROJECT_DIR$/Webdriver/chromedriver.exe" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Functions/ClickElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Functions/ClickElement.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Functions/ErrorMessageException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Functions/ErrorSuccessMessage.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Scripts/AdminFlow.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Scripts/AdminFlow.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/UploadFiles/UploadFile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Functions/UploadFile.java" afterDir="false" />
     </list>
-    <list id="9d51458f-e01d-49e1-af5c-8a2d86ffdb40" name="Changes by Gaurang" comment="">
-      <change beforePath="$PROJECT_DIR$/src/main/java/Functions/ClickElement.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Functions/ClickElement.java" afterDir="false" />
-    </list>
+    <list id="9d51458f-e01d-49e1-af5c-8a2d86ffdb40" name="Changes by Gaurang" comment="" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -44,16 +29,6 @@
   <component name="GithubDefaultAccount">
     <option name="defaultAccountId" value="332c1a14-95ec-4b41-970a-521fc9400118" />
   </component>
-  <component name="LineStatusTrackerManager">
-    <file path="$PROJECT_DIR$/src/main/java/Functions/ClickElement.java">
-      <ranges>
-        <range start1="90" end1="91" start2="90" end2="90" changelist="e96acda6-b8dc-4098-8b1b-45616e6c8908" />
-        <range start1="92" end1="92" start2="91" end2="102" changelist="9d51458f-e01d-49e1-af5c-8a2d86ffdb40" />
-        <range start1="97" end1="98" start2="107" end2="107" changelist="e96acda6-b8dc-4098-8b1b-45616e6c8908" />
-        <range start1="126" end1="126" start2="135" end2="138" changelist="e96acda6-b8dc-4098-8b1b-45616e6c8908" />
-      </ranges>
-    </file>
-  </component>
   <component name="ProjectId" id="1p9j4X1VDkCCQSuJtgFWZTcKAm8" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -67,11 +42,11 @@
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../PlatformX" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="project.structure.last.edited" value="Modules" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="preferences.pluginManager" />
+    <property name="settings.editor.selected.configurable" value="editor.preferences.completion" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -179,7 +154,21 @@
       <option name="project" value="LOCAL" />
       <updated>1614680757946</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="setup">
+      <created>1614685984665</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1614685984665</updated>
+    </task>
+    <task id="LOCAL-00007" summary="setup">
+      <created>1614686014965</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1614686014965</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -192,6 +181,7 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
