@@ -89,6 +89,17 @@ public class ClickElement {
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
         element.sendKeys(sendKey);
     }
+    public static void waitForElementByText(WebDriver driver, String text)
+    {
+        WebDriverWait wait= new WebDriverWait(driver, 100);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(text)));
+    }
+    public static void waitAndClickElementByText(WebDriver driver, String text)
+    {
+        WebDriverWait wait= new WebDriverWait(driver, 100);
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.linkText(text))).click();
+
+    }
 
     public static void sendKeysById(WebDriver driver, String id, String sendKey) {
         WebDriverWait wait = new WebDriverWait(driver, 100);
