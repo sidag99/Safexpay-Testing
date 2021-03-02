@@ -11,19 +11,20 @@ import org.testng.annotations.Test;
 
 import java.io.IOException;
 
-public class Login {
+import static Functions.Driver.driverAllocation;
+import static Reports.AllureReport.*;
+
+public class AdminFlow {
     static WebDriver driver;
     static WebDriverWait wait;
     @BeforeTest
-    public void DriverAllocation(){
-        System.setProperty("webdriver.chrome.driver", System.getProperty("user.dir") + "\\Drivers\\chromedriver.exe");
-        driver = new ChromeDriver();
-        driver.manage().window().maximize();
-        wait=new WebDriverWait(driver, 100);
+    public void DriverAllocation() throws IOException {
+        driver = driverAllocation("chrome");  //Allocates the driver
+        DelPreviousReport();  //Deletes previous allure report
     }
+
     @Test(priority = 0)
     public void Url(){
-        
         driver.get("https://safexpayuat.bankfab.com/agadmin/fabIndex.jsp");
         wait=new WebDriverWait(driver, 30);
         wait.until(ExpectedConditions.visibilityOfElementLocated(By.id("userName")));
