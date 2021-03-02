@@ -88,14 +88,12 @@ public class ClickElement {
         WebDriverWait wait = new WebDriverWait(driver, 100);
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
         element.sendKeys(sendKey);
-        element.sendKeys(Keys.RETURN);
     }
 
     public static void sendKeysById(WebDriver driver, String id, String sendKey) {
         WebDriverWait wait = new WebDriverWait(driver, 100);
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.id(id)));
         element.sendKeys(sendKey);
-        element.sendKeys(Keys.RETURN);
     }
 
     public static void waitForElementXpath(WebDriver driver, String xpath) {
@@ -123,6 +121,9 @@ public class ClickElement {
 
     public static void clickByXpath(WebDriver driver, String xpath){
         driver.findElement(By.xpath(xpath)).click();
+    }
+    public static void clickByText(WebDriver driver, String text){
+        driver.findElement(By.linkText(text)).click();
     }
     public static void clickById(WebDriver driver, String id){
         driver.findElement(By.id(id)).click();
