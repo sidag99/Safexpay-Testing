@@ -17,6 +17,7 @@ import static Reports.AllureReport.*;
 public class AdminFlow {
     static WebDriver driver;
     static WebDriverWait wait;
+
     @BeforeTest
     public void DriverAllocation() throws IOException {
         driver = driverAllocation("chrome");  //Allocates the driver
