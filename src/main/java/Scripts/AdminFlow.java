@@ -1,21 +1,16 @@
 package Scripts;
-import ReadFiles.ReadFromCSV;
+import Read_Write_Files.ReadFromCSV;
 import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
-import org.openqa.selenium.By;
-import org.openqa.selenium.Keys;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 import static Functions.ClickElement.*;
@@ -69,6 +64,7 @@ public class AdminFlow {
         Screenshot(driver, "Login Successful");  //Saving Screenshot for allure report
     }
 
+    String[] dataCreateMerchant= new String[10];
     @Test(priority=1, description = "Merchant Creation Flow")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Merchant Creation Flow")
@@ -89,6 +85,7 @@ public class AdminFlow {
         Thread.sleep(1000);
         String testName= "test_"+getTimestamp();
         sendKeysByXpath(driver,"//*[@ng-model=\"name\"]", testName);
+
     }
 
     @Test(priority=2, description = "User Creation Flow")

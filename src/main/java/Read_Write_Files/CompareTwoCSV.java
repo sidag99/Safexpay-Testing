@@ -1,4 +1,4 @@
-package ReadFiles;
+package Read_Write_Files;
 
 import java.io.IOException;
 import java.nio.file.Files;
