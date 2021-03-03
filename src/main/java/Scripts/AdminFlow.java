@@ -4,7 +4,9 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
@@ -12,9 +14,11 @@ import org.testng.annotations.Test;
 import java.io.IOException;
 import java.lang.reflect.Array;
 import java.util.Arrays;
+import java.util.List;
 
 import static Functions.ClickElement.*;
 import static Functions.Driver.driverAllocation;
+import static Functions.SelectRandomFile.selectRandomFileFromList;
 import static Reports.AllureReport.*;
 import static Functions.CreateNameByTimestamp.*;
 
@@ -64,11 +68,12 @@ public class AdminFlow {
         Screenshot(driver, "Login Successful");  //Saving Screenshot for allure report
     }
 
-    String[] dataCreateMerchant= new String[10];
+    String[] dataCreateMerchant;
     @Test(priority=1, description = "Merchant Creation Flow")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Merchant Creation Flow")
     public void createMerchant() throws InterruptedException {
+        dataCreateMerchant= new String[15];
         openCreateMerchant();
     }
 
@@ -85,17 +90,25 @@ public class AdminFlow {
         Thread.sleep(1000);
         String testName= "test_"+getTimestamp();
         sendKeysByXpath(driver,"//*[@ng-model=\"name\"]", testName);
-
+        dataCreateMerchant[0]=testName;
+        Thread.sleep(200);
+        clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[4]/div[1]/div/div/a");
+        Thread.sleep(500);
+        int selectedSector=selectRandomFileFromList(driver,"/html/body/div[4]/ul/li");
+        if(selectedSector!=-1)
+            clickByXpath(driver,"/html/body/div[4]/ul/li["+selectedSector+"]");
+        Thread.sleep(200);
+        WebElement countryDropDown=driver.findElement(By.xpath("//*[@id=\"s2id_autogen9\"]"));
+        countryDropDown.click();
+        Thread.sleep(200);
+        driver.findElement(By.xpath("/html/body/div[5]/ul/li[2]/div")).click();
+        Thread.sleep(2000);
+        WebElement currencyDropDown=driver.findElement(By.xpath("//*[@id=\"s2id_autogen11\"]"));
+        currencyDropDown.click();
+        Thread.sleep(200);
+        currencyDropDown.findElement(By.linkText("United Arab Emirates")).click();
     }
 
-    @Test(priority=2, description = "User Creation Flow")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("User Creation Flow")
-    public void createUser(){
-     clickByXpath(driver,"//*[@id=\"js-side-menu-1\"]");
-     clickByXpath(driver,"//*[@id=\"js-side-menu-1\");
-
-    }
 
 
 

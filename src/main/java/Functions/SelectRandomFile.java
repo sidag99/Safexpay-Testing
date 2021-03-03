@@ -16,7 +16,7 @@ public class SelectRandomFile {
         List<WebElement> filesList = driver.findElements(By.xpath(xpath));
         if (filesList.size() == 1) {
             try {
-                if (filesList.get(0).getText().toLowerCase().contains("No")) {
+                if (filesList.get(0).getText().toLowerCase().contains("select")) {
                     saveTextLog("No data available in table");
                     Thread.sleep(500);
                     return -1;
