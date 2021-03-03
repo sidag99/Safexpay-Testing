@@ -42,5 +42,4 @@ public class WriteToCSV {
         writer.writeNext(data);
         writer.close();
     }
-
 }

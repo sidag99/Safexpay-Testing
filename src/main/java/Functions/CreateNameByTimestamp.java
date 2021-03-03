@@ -14,4 +14,9 @@ public class CreateNameByTimestamp {
         String timeStamp = new SimpleDateFormat(dateFormat).format(new Date());
         return timeStamp;
     }
+    public static String getTimestampShort() {
+        String dateFormat="ddHHmmss";
+        String timeStamp = new SimpleDateFormat(dateFormat).format(new Date());
+        return timeStamp;
+    }
 }
