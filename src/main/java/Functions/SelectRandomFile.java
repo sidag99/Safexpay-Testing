@@ -26,7 +26,7 @@ public class SelectRandomFile {
             return 0;
 
         } else if (filesList.size() > 1) {
-            int min = 1, max = filesList.size();
+            int min = 2, max = filesList.size();
             int randomNum = new Random().nextInt((max - min) + 1) + min;
             return randomNum-1;
         }

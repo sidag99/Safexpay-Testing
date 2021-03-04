@@ -19,12 +19,13 @@ public class CreateNameByTimestamp {
         String timeStamp = new SimpleDateFormat(dateFormat).format(new Date());
         return timeStamp;
     }
-    public static String getRandomString(int length) {
+    public static String getRandomString() {
         String alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         StringBuilder sb = new StringBuilder();
         // create an object of Random class
         Random random = new Random();
         // specify length of random string
+        int length=7;
         for(int i = 0; i < length; i++) {
             // generate random index number
             int index = random.nextInt(alphabet.length());

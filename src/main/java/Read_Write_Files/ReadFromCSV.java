@@ -12,7 +12,7 @@ ReadFromCSV(String path)  //Constructor, Stores all the rows in a list, with col
 String[] ReadLineNumber(int line)  //Reads the row number, separates columns by "," and stores in array
  */
 public class ReadFromCSV {
-    static List<String> StringArrayList = new ArrayList<>();
+    private List<String> StringArrayList = new ArrayList<>();
 
     public ReadFromCSV(String path) throws IOException {
         StringArrayList.clear();
