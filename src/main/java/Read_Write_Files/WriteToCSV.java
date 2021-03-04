@@ -22,8 +22,10 @@ public class WriteToCSV {
                 CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                 CSVWriter.DEFAULT_LINE_END);
     }
-    public static void deleteContentsOfCsv(String filePath, String[] header) throws IOException {
+    public static void deleteContentsOfCsv(String filePath) throws Exception {
         file = new File(filePath);
+        ReadFromCSV r= new ReadFromCSV(filePath);
+        String[] header_original= r.ReadLineNumber(0);
         if (file.exists() && file.isFile())
         {
             file.delete();
@@ -35,7 +37,7 @@ public class WriteToCSV {
                 CSVWriter.NO_QUOTE_CHARACTER,
                 CSVWriter.DEFAULT_ESCAPE_CHARACTER,
                 CSVWriter.DEFAULT_LINE_END);
-        writer.writeNext(header);
+        writer.writeNext(header_original);
         writer.close();
     }
     public static void writeNextLineCsv(String [] data) throws IOException {

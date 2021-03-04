@@ -78,4 +78,21 @@ public class ScrollToView {
         }
 
     }
+    public static void scrollToCenterXpath(WebDriver driver, String xpath) {
+
+        try {
+            WebElement element = driver.findElement(By.xpath(xpath));
+
+            String scrollElementIntoMiddle = "var viewPortHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);"
+                    + "var elementTop = arguments[0].getBoundingClientRect().top;"
+                    + "window.scrollBy(0, elementTop-(viewPortHeight/2));";
+
+            ((JavascriptExecutor) driver).executeScript(scrollElementIntoMiddle, element);
+
+        } catch (Exception e) {
+            System.out.println("Unable to scroll to the element\n\n"+e.getMessage());
+        }
+
+    }
+
 }
