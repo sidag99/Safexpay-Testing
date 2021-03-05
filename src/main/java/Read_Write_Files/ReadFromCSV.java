@@ -22,6 +22,10 @@ public class ReadFromCSV {
         }
     }
 
+    public int SizeOfFile(){
+        return StringArrayList.size();
+    }
+
     public String[] ReadLineNumber(int line) throws Exception {
         String login = StringArrayList.get(line);
         String[] StringArray = login.split(",");

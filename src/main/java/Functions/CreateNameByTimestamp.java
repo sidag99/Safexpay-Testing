@@ -25,7 +25,7 @@ public class CreateNameByTimestamp {
         // create an object of Random class
         Random random = new Random();
         // specify length of random string
-        int length=7;
+        int length=6;
         for(int i = 0; i < length; i++) {
             // generate random index number
             int index = random.nextInt(alphabet.length());

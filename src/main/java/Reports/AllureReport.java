@@ -1,5 +1,7 @@
 package Reports;
 
+import io.qameta.allure.Allure;
+import io.qameta.allure.AllureLifecycle;
 import io.qameta.allure.Attachment;
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
@@ -33,6 +35,11 @@ public class AllureReport {
             saveTextLog("ERR: " +e.getMessage());
             throw e;
         }
+    }
+    public static void changeStepName(String name)
+    {
+        AllureLifecycle lifecycle = Allure.getLifecycle();
+        lifecycle.updateStep(testStep -> testStep.setName(name));
     }
 
     @Attachment(value = "Page Screenshot",type = "image/png")

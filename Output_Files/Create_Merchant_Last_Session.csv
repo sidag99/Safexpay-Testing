@@ -1,2 +1,8 @@
 Merchant Name,Integration Type,3DS,Non-3DS,FirstName,LastName,Email,CyberSource,MPGS-3D,MPGS-Non-3D,Tabby
-Merchant_04162150,Aggregator Hosted,yes,yes,FName_QOOIJMG,LName_QOOIJMG,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05173614,Aggregator Hosted,no,yes,FNameLUWXMR,LNameLUWXMR,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05173757,Aggregator Hosted,no,yes,FNameBLQRYH,LNameBLQRYH,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05173938,Aggregator Hosted,yes,no,FNameYOKYFD,LNameYOKYFD,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05174120,Aggregator Hosted,yes,no,FNameZCHHYK,LNameZCHHYK,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05174305,Aggregator Hosted,yes,yes,FNameAQADNB,LNameAQADNB,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05174453,Aggregator Hosted,yes,yes,FNameZZQNXI,LNameZZQNXI,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05174634,JS Checkout,no,yes,FNameGCUUOZ,LNameGCUUOZ,padmawati.taddy@bankfab.com,yes,no,no,yes
