@@ -32,4 +32,9 @@ public class SelectRandomFile {
         }
         return -1;
     }
+
+    public static int createRandomNum(int min, int max){
+        int randomNum = new Random().nextInt((max - min) + 1) + min;
+        return randomNum;
+    }
 }
