@@ -1,1 +1,6 @@
 Merchant Name,Integration Type,3DS,Non-3DS,CyberSource,MPGS-3D,MPGS-Non-3D,Tabby,ID,Key
+Merchant05184726,Aggregator Hosted,no,yes,yes,no,no,yes,202103050028,OrZAZFLf36rprALP/fgG7sPUTUawvisf9F/wGEZAWyU=
+Merchant05184914,Aggregator Hosted,no,yes,yes,no,yes,yes,202103050039,tFFLBf1jItVOBQU6LYehXN7lwBBjnCNaKZVtEryZUGM=
+Merchant05185107,Aggregator Hosted,yes,no,yes,no,no,yes,202103050034,LWHghNizKiKVrmrf80QSn7PbUC357JdfspoeSy4NUH8=
+Merchant05185257,Aggregator Hosted,yes,no,yes,yes,no,yes,202103050039,tFFLBf1jItVOBQU6LYehXN7lwBBjnCNaKZVtEryZUGM=
+Merchant05185443,Aggregator Hosted,yes,yes,yes,no,no,yes,202103050039,tFFLBf1jItVOBQU6LYehXN7lwBBjnCNaKZVtEryZUGM=

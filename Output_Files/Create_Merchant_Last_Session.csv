@@ -1,8 +1,13 @@
 Merchant Name,Integration Type,3DS,Non-3DS,FirstName,LastName,Email,CyberSource,MPGS-3D,MPGS-Non-3D,Tabby
-Merchant05173614,Aggregator Hosted,no,yes,FNameLUWXMR,LNameLUWXMR,padmawati.taddy@bankfab.com,yes,no,no,yes
-Merchant05173757,Aggregator Hosted,no,yes,FNameBLQRYH,LNameBLQRYH,padmawati.taddy@bankfab.com,yes,no,no,yes
-Merchant05173938,Aggregator Hosted,yes,no,FNameYOKYFD,LNameYOKYFD,padmawati.taddy@bankfab.com,yes,no,no,yes
-Merchant05174120,Aggregator Hosted,yes,no,FNameZCHHYK,LNameZCHHYK,padmawati.taddy@bankfab.com,yes,no,no,yes
-Merchant05174305,Aggregator Hosted,yes,yes,FNameAQADNB,LNameAQADNB,padmawati.taddy@bankfab.com,yes,no,no,yes
-Merchant05174453,Aggregator Hosted,yes,yes,FNameZZQNXI,LNameZZQNXI,padmawati.taddy@bankfab.com,yes,no,no,yes
-Merchant05174634,JS Checkout,no,yes,FNameGCUUOZ,LNameGCUUOZ,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05184726,Aggregator Hosted,no,yes,FNameEJHZHE,LNameEJHZHE,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05184914,Aggregator Hosted,no,yes,FNameEOGBMQ,LNameEOGBMQ,padmawati.taddy@bankfab.com,yes,no,yes,yes
+Merchant05185107,Aggregator Hosted,yes,no,FNameHZJXBS,LNameHZJXBS,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05185257,Aggregator Hosted,yes,no,FNameALUZQU,LNameALUZQU,padmawati.taddy@bankfab.com,yes,yes,no,yes
+Merchant05185443,Aggregator Hosted,yes,yes,FNameOHUWZE,LNameOHUWZE,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05185635,Aggregator Hosted,yes,yes,FNameGVAVHH,LNameGVAVHH,padmawati.taddy@bankfab.com,yes,yes,yes,yes
+Merchant05185827,JS Checkout,no,yes,FNameYSDDCV,LNameYSDDCV,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05190015,JS Checkout,no,yes,FNamePCQAXD,LNamePCQAXD,padmawati.taddy@bankfab.com,yes,no,yes,yes
+Merchant05190202,JS Checkout,yes,no,FNameWSALDF,LNameWSALDF,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05190355,JS Checkout,yes,no,FNameJXGFHU,LNameJXGFHU,padmawati.taddy@bankfab.com,yes,yes,no,yes
+Merchant05190541,JS Checkout,yes,yes,FNameDTIIUT,LNameDTIIUT,padmawati.taddy@bankfab.com,yes,no,no,yes
+Merchant05190728,JS Checkout,yes,yes,FNameBTCKDO,LNameBTCKDO,padmawati.taddy@bankfab.com,yes,yes,yes,yes

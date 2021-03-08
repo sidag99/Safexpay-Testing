@@ -223,9 +223,11 @@ public class AdminFlow {
         }//else dataCreateMerchant[6]="no";
 
 
-        clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[21]/div/div/button");  //Go to Next Page
+        clickByXpath(driver,"//div//button[@ng-click=\"saveBusinessDetails()\"]");  //Go to Next Page
         saveTextLog("Next Button Clicked");
-
+        waitForElementXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p");
+        String message=driver.findElement(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p")).getText();
+        Screenshot(driver,"SnackBar Message: "+message);
 
     //------------------------Filling User Details--------------------------
 
@@ -252,7 +254,9 @@ public class AdminFlow {
         Thread.sleep(2000);
         clickByXpath(driver,"//div//button[@ng-click=\"saveUserDetails();\"]");
         saveTextLog("Next button clicked");
-
+        waitForElementXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p");
+        message=driver.findElement(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p")).getText();
+        Screenshot(driver,"SnackBar Message: "+message);
 
     //------------------------Fill Pricing Information-----------------------
         saveTextLog("FILLING PRICING INFORMATION");
@@ -261,114 +265,111 @@ public class AdminFlow {
             waitAndClickByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[1]/div/div/div/label");
             saveTextLog("Card button clicked");
             Thread.sleep(2000);
-            if(paymentModes[0].equalsIgnoreCase("yes"))
-            {
+            if (paymentModes[0].equalsIgnoreCase("yes")) {
                 String keyCyberCsvPath = System.getProperty("user.dir") + "\\Configuration_Files\\Create_Merchant_Data\\Payment_Modes\\CybersourcePG_Key.csv";
                 ReadFromCSV csv = new ReadFromCSV(keyCyberCsvPath);  //Reading encryption data
                 String[] key = csv.ReadLineNumber(1);
-                clickByXpath(driver,"//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[2]/div[1]/div/div/legend/a");  //Add cybersource pg
+                clickByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[2]/div[1]/div/div/legend/a");  //Add cybersource pg
                 Thread.sleep(1000);
-                clickByXpath(driver,"//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[2]/div[1]/div/div/legend/a");  //Add cybersource pg
+                clickByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[2]/div[1]/div/div/legend/a");  //Add cybersource pg
                 Thread.sleep(1000);
-                sendKeysByXpath(driver,"//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[2]/div[2]/div[1]/input",key[0]);  //Add MID
+                sendKeysByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[2]/div[2]/div[1]/input", key[0]);  //Add MID
                 Thread.sleep(1000);
-                sendKeysByXpath(driver,"//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[2]/div[2]/div[2]/input",key[1]);  //Add Encryption key
+                sendKeysByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[2]/div[2]/div[2]/input", key[1]);  //Add Encryption key
                 Thread.sleep(1000);
-                clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[4]/div[1]/div/div/a");  //Select Currency
-                Thread.sleep(1000);
-                clickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[1]");  //Select AED
-                Thread.sleep(1000);
-                clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[4]/div[2]/div/div/a");  //Select Schema
-                Thread.sleep(1000);
-                clickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[1]");  //Select Mastercard
-                Thread.sleep(1000);
-                clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[4]/div[3]/div/div/a");  //Select Operating mode
-                Thread.sleep(1000);
-                clickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[1]");  //Select International
-                Thread.sleep(1000);
-                clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[5]/div[1]/div/div/a");//Select Currency
-                Thread.sleep(1000);
-                clickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[1]");//Select AED
-                Thread.sleep(1000);
-                clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[5]/div[2]/div/div/a");//Select Schema
-                Thread.sleep(1000);
-                clickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[2]");//Select Visa
-                Thread.sleep(1000);
-                clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[5]/div[3]/div/div/a");//Select Operating mode
-                Thread.sleep(1000);
-                clickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[1]");//Select International
-                Thread.sleep(1000);
-                saveTextLog("Cybersource PG Details added");
-                dataCreateMerchant[7]="yes";
-                Thread.sleep(1000);
-            }
-        }
-        else dataCreateMerchant[7]="no";
-
-
-        if(paymentModes[1].equalsIgnoreCase("yes"))
-        {
-            String[] key =null;
-            if(dataCreateMerchant[3].equalsIgnoreCase("yes")) {
-                String keyCyberCsvPath = System.getProperty("user.dir") + "\\Configuration_Files\\Create_Merchant_Data\\Payment_Modes\\MPGS-Fab-Non-3DS_key.csv";
-                ReadFromCSV csv = new ReadFromCSV(keyCyberCsvPath);  //Reading encryption data
-                key =csv.ReadLineNumber(1);
-            }
-            else if(dataCreateMerchant[2].equalsIgnoreCase("yes"))
-            {
-                String keyCyberCsvPath = System.getProperty("user.dir") + "\\Configuration_Files\\Create_Merchant_Data\\Payment_Modes\\MPGS-Fab-3DS_key.csv";
-                ReadFromCSV csv = new ReadFromCSV(keyCyberCsvPath);  //Reading encryption data
-                key =csv.ReadLineNumber(1);
-            }
-            if(key!=null) {
-                clickByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[3]/div[1]/div/div/legend/a");  //Add MPGS-Fab
-                Thread.sleep(1000);
-                clickByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[3]/div[1]/div/div/legend/a");  //Add MPGS-Fab
-                Thread.sleep(1000);
-                sendKeysByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[3]/div[2]/div[1]/input", key[0]);  //Add MID
-                Thread.sleep(1000);
-                sendKeysByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[3]/div[2]/div[2]/input", key[1]);  //Add Encryption key
-                Thread.sleep(1000);
-                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[4]/div[1]/div/div/a");  //Select Currency
+                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[4]/div[1]/div/div/a");  //Select Currency
                 Thread.sleep(1000);
                 clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");  //Select AED
                 Thread.sleep(1000);
-                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[4]/div[2]/div/div/a");  //Select Schema
+                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[4]/div[2]/div/div/a");  //Select Schema
                 Thread.sleep(1000);
                 clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");  //Select Mastercard
                 Thread.sleep(1000);
-                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[4]/div[3]/div/div/a");  //Select Operating mode
+                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[4]/div[3]/div/div/a");  //Select Operating mode
                 Thread.sleep(1000);
                 clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");  //Select International
                 Thread.sleep(1000);
-                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[5]/div[1]/div/div/a");//Select Currency
+                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[5]/div[1]/div/div/a");//Select Currency
                 Thread.sleep(1000);
                 clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");//Select AED
                 Thread.sleep(1000);
-                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[5]/div[2]/div/div/a");//Select Schema
+                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[5]/div[2]/div/div/a");//Select Schema
                 Thread.sleep(1000);
                 clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[2]");//Select Visa
                 Thread.sleep(1000);
-                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[5]/div[3]/div/div/a");//Select Operating mode
+                clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[2]/div[5]/div[3]/div/div/a");//Select Operating mode
                 Thread.sleep(1000);
                 clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");//Select International
                 Thread.sleep(1000);
-                if (dataCreateMerchant[3].equalsIgnoreCase("yes")&&dataCreateMerchant[2].equalsIgnoreCase("yes")) {
-                    dataCreateMerchant[8] = "yes";
-                    dataCreateMerchant[9] = "yes";
-                } else if(dataCreateMerchant[3].equalsIgnoreCase("yes")) {
-                    dataCreateMerchant[9] = "yes";
-                    dataCreateMerchant[8] = "no";
-                }else if(dataCreateMerchant[2].equalsIgnoreCase("yes"))
-                {
-                    dataCreateMerchant[9] = "no";
-                    dataCreateMerchant[8] = "yes";
-                }
-                saveTextLog("MPGS N0n-3D Details added");
+                saveTextLog("Cybersource PG Details added");
+                dataCreateMerchant[7] = "yes";
                 Thread.sleep(1000);
+            } else dataCreateMerchant[7] = "no";
+
+
+            if (paymentModes[1].equalsIgnoreCase("yes")) {
+                String[] key = null;
+                if (dataCreateMerchant[3].equalsIgnoreCase("yes")) {
+                    String keyCyberCsvPath = System.getProperty("user.dir") + "\\Configuration_Files\\Create_Merchant_Data\\Payment_Modes\\MPGS-Fab-Non-3DS_key.csv";
+                    ReadFromCSV csv = new ReadFromCSV(keyCyberCsvPath);  //Reading encryption data
+                    key = csv.ReadLineNumber(1);
+                } else if (dataCreateMerchant[2].equalsIgnoreCase("yes")) {
+                    String keyCyberCsvPath = System.getProperty("user.dir") + "\\Configuration_Files\\Create_Merchant_Data\\Payment_Modes\\MPGS-Fab-3DS_key.csv";
+                    ReadFromCSV csv = new ReadFromCSV(keyCyberCsvPath);  //Reading encryption data
+                    key = csv.ReadLineNumber(1);
+                }
+                if (key != null) {
+                    clickByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[3]/div[1]/div/div/legend/a");  //Add MPGS-Fab
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[3]/div[1]/div/div/legend/a");  //Add MPGS-Fab
+                    Thread.sleep(1000);
+                    sendKeysByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[3]/div[2]/div[1]/input", key[0]);  //Add MID
+                    Thread.sleep(1000);
+                    sendKeysByXpath(driver, "//*[@id=\"Pricing\"]/form/div[1]/div[1]/div/div[3]/div[2]/div[2]/input", key[1]);  //Add Encryption key
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[4]/div[1]/div/div/a");  //Select Currency
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");  //Select AED
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[4]/div[2]/div/div/a");  //Select Schema
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");  //Select Mastercard
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[4]/div[3]/div/div/a");  //Select Operating mode
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");  //Select International
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[5]/div[1]/div/div/a");//Select Currency
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");//Select AED
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[5]/div[2]/div/div/a");//Select Schema
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[2]");//Select Visa
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[3]/form/div[1]/div[1]/div/div[3]/div[5]/div[3]/div/div/a");//Select Operating mode
+                    Thread.sleep(1000);
+                    clickByXpath(driver, "//*[@id=\"select2-drop\"]/ul/li[1]");//Select International
+                    Thread.sleep(1000);
+                    if (dataCreateMerchant[3].equalsIgnoreCase("yes") && dataCreateMerchant[2].equalsIgnoreCase("yes")) {
+                        dataCreateMerchant[8] = "yes";
+                        dataCreateMerchant[9] = "yes";
+                    } else if (dataCreateMerchant[3].equalsIgnoreCase("yes")) {
+                        dataCreateMerchant[9] = "yes";
+                        dataCreateMerchant[8] = "no";
+                    } else if (dataCreateMerchant[2].equalsIgnoreCase("yes")) {
+                        dataCreateMerchant[9] = "no";
+                        dataCreateMerchant[8] = "yes";
+                    }
+                    saveTextLog("MPGS N0n-3D Details added");
+                    Thread.sleep(1000);
+                }
+            } else {
+                dataCreateMerchant[8] = "no";
+                dataCreateMerchant[9] = "no";
             }
-        }else
-        {
+        }else {
+            dataCreateMerchant[7] = "no";
             dataCreateMerchant[8] = "no";
             dataCreateMerchant[9] = "no";
         }
@@ -402,8 +403,11 @@ public class AdminFlow {
         }else dataCreateMerchant[10]="no";
 
         scrollToCenterXpath(driver,"//*[@id=\"Pricing\"]/form/div[2]/div/div/button[2]");
-        clickByXpath(driver,"//*[@id=\"Pricing\"]/form/div[2]/div/div/button[2]");
+        clickByXpath(driver,"//div//button[@ng-click=\"savePriceDetails();\"]");
         saveTextLog("Next Button Clicked");
+        waitForElementXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p");
+        message=driver.findElement(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p")).getText();
+        Screenshot(driver,"SnackBar Message: "+message);
 
     //----------------------Fill Velocity Form----------------------------
         saveTextLog("FILL VELOCITY FORM");
@@ -425,8 +429,11 @@ public class AdminFlow {
         sendKeysByXpath(driver,"//*[@id=\"Velocity\"]/form/div[9]/div[2]/div/input",dataVelocity[3]);  //enter Refund Daily Transaction Amount
         saveTextLog("Refund Daily Transaction Amount: "+dataVelocity[3]);
         Thread.sleep(2000);
-        clickByXpath(driver,"//*[@id=\"Velocity\"]/form/div[10]/div/div/button[2]");
+        clickByXpath(driver,"//div//button[@ng-click=\"saveVelocityDetails();\"]");
         saveTextLog("Next Button Clicked");
+        waitForElementXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p");
+        message=driver.findElement(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p")).getText();
+        Screenshot(driver,"SnackBar Message: "+message);
     //--------------------------Fill Other Form---------------------
         saveTextLog("FILL OTHER FORM");
         String ReferralDetailsCsvPath = System.getProperty("user.dir") + "\\Configuration_Files\\Create_Merchant_Data\\Referral_URLs.csv";  //path to get details file
@@ -447,8 +454,11 @@ public class AdminFlow {
             saveTextLog("Referrals Added");
         }
         Thread.sleep(2000);
-        clickByXpath(driver,"//*[@id=\"Others\"]/form/div[2]/div/div/button[2]");
-        saveTextLog("Submitted");
+        clickByXpath(driver,"//div//button[@ng-click=\"saveOtherDetails();\"]");
+        saveTextLog("Next Button Clicked");
+        waitForElementXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p");
+        message=driver.findElement(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p")).getText();
+        Screenshot(driver,"SnackBar Message: "+message);
         String mpgs;
         if(dataCreateMerchant[8].equalsIgnoreCase("yes")||dataCreateMerchant[9].equalsIgnoreCase("yes"))
         {
@@ -461,8 +471,66 @@ public class AdminFlow {
     }
 
 
+
+    //------------------------Authorizing merchants created-------------------------------
+    @Test(priority=2, description = "Checker Authorize Flow")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Merchant Authorization Flow")
+    public void editMerchant() throws Exception{
+        openManageMerchantMaker();
+        Thread.sleep(5000);
+        deleteContentsOfCsv("Output_Files/Merchant_Authorization_Status_Last_Session.csv");
+        ReadFromCSV lastRun=new ReadFromCSV(System.getProperty("user.dir") + "\\Output_Files\\Create_Merchant_Last_Session.csv");
+        for(int i=1;i<lastRun.SizeOfFile();i++)
+        {
+            String [] lastData=lastRun.ReadLineNumber(i);
+            editMerchant(lastData);
+            Thread.sleep(5000);
+        }
+    }
+    @Step("Opening Manage Merchant")
+    public void openManageMerchantMaker() throws InterruptedException {
+        waitAndClickByXpath(driver,"//*[@id=\"js-side-menu-1\"]");  //Clicks Merchant Management
+        saveTextLog("Clicked Merchant Management");
+        Thread.sleep(1000);
+        clickByXpath(driver,"//*[@id=\"js-side-menu-1\"]/ul/li[2]/a");  //Clicks Create Merchant
+        saveTextLog("Clicked Manage Merchant");
+    }
+    @Step("Authorize Merchant")
+    public void editMerchant(String [] merchantData) throws InterruptedException, IOException {
+        waitForElementXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div[2]/div/div[2]/table/tbody/tr[1]/td[2]/input");
+        Thread.sleep(1000);
+        driver.findElement(By.xpath("/html/body/div[1]/div/div/div/div[4]/div[2]/div/div[2]/table/tbody/tr[1]/td[2]/input")).clear();
+        sendKeysByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div[2]/div/div[2]/table/tbody/tr[1]/td[2]/input",merchantData[0]);
+        Thread.sleep(5000);
+        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[4]/div[2]/div/div[2]/table/tbody/tr[2]/td[13]/button[2]");
+        Thread.sleep(5000);
+        scrollToCenterXpath(driver,"//*[@id=\"BusinessDetails\"]/form/div[22]/div/div/button");
+        Thread.sleep(2000);
+
+        clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[19]/div[1]/div/div[1]/div/div/label");  //Toggle EPP
+        saveTextLog("EPP Turned ON");
+        Thread.sleep(500);
+
+        clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[20]/div/div/div[1]/div/div/label");  //Toggle Refund API
+        saveTextLog("Refund API Turned ON");
+        Thread.sleep(500);
+
+        clickByXpath(driver, "/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[20]/div/div/div[2]/div/div/label"); //Toggle Refund Portal
+        saveTextLog("Refund Portal Turned ON");
+        Thread.sleep(500);
+
+        clickByXpath(driver,"//*[@id=\"BusinessDetails\"]/form/div[22]/div/div/button");  //Next Button
+        saveTextLog("Next button Clicked");
+        waitForElementXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p");
+        String message=driver.findElement(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/div/div/div[2]/p")).getText();
+        Screenshot(driver,"SnackBar Message: "+message);
+        Thread.sleep(3000);
+        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/button");  //Back To Merchant Management
+        saveTextLog("Back To Merchant Management Clicked");
+    }
     //-----------------User Creation Module------------------
-    //@Test(priority=2, description = "User Creation Flow")
+    //@Test(priority=3, description = "User Creation Flow")
     @Severity(SeverityLevel.CRITICAL)
     @Description("User Creation Flow")
     public void createUser() throws Exception {
@@ -578,7 +646,7 @@ public class AdminFlow {
     }
 
     //------------------------Opening Checker Admin account-------------------------------
-    @Test(priority=3, description = "Opening Safexpay website and logging in for checker")
+    @Test(priority=4, description = "Opening Safexpay website and logging in for checker")
     @Severity(SeverityLevel.BLOCKER)
     @Description("Test setup by opening the login page and logging in")
     public void testSetupAdminChecker() throws Exception {
@@ -591,7 +659,7 @@ public class AdminFlow {
     }
 
     //------------------------Authorizing merchants created-------------------------------
-    @Test(priority=4, description = "Checker Authorize Flow")
+    @Test(priority=5, description = "Checker Authorize Flow")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Merchant Authorization Flow")
     public void checkerAdmin() throws Exception{
@@ -606,13 +674,13 @@ public class AdminFlow {
             Thread.sleep(5000);
         }
     }
-    @Step("Opening Create Merchant")
+    @Step("Opening Manage Merchant")
     public void openManageMerchantChecker() throws InterruptedException {
         waitAndClickByXpath(driver,"//*[@id=\"js-side-menu-1\"]");  //Clicks Merchant Management
         saveTextLog("Clicked Merchant Management");
         Thread.sleep(1000);
         clickByXpath(driver,"//*[@id=\"js-side-menu-1\"]/ul/li/a");  //Clicks Create Merchant
-        saveTextLog("Clicked Create Merchant");
+        saveTextLog("Clicked Manage Merchant");
     }
     @Step("Authorize Merchant")
     public void authorizeMerchant(String [] merchantData) throws InterruptedException, IOException {
