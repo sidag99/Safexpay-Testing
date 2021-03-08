@@ -758,17 +758,29 @@ public class AdminFlow {
 
     }
     //--------------------------------Transaction Simulation----------------
-    @Test(priority = 6,description = "Transaction Simulation")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("This test is for simulating transactions")
-    public void transactionSimulation() throws Exception {
-        ReadFromCSV lastRun=new ReadFromCSV(System.getProperty("user.dir") + "\\Output_Files\\Merchant_Authorization_Status_Last_Session.csv");
-        for(int i=1;i<lastRun.SizeOfFile();i++)
-        {
-            String [] lastData=lastRun.ReadLineNumber(i);
-            authorizeMerchant(lastData, true);
-            Thread.sleep(5000);
-        }
-    }
+//    @Test(priority = 6,description = "Transaction Simulation")
+//    @Severity(SeverityLevel.CRITICAL)
+//    @Description("This test is for simulating transactions")
+//    public void transactionSimulation() throws Exception {
+//        ReadFromCSV lastRun=new ReadFromCSV(System.getProperty("user.dir") + "\\Output_Files\\Merchant_Authorization_Status_Last_Session.csv");
+//        for(int i=1;i<lastRun.SizeOfFile();i++)
+//        {
+//            String [] lastData=lastRun.ReadLineNumber(i);
+//            if(lastData[1].equalsIgnoreCase("aggregator hosted"))
+//                aggregatorHostedSimulator(lastData);
+//            else if(lastData[1].equalsIgnoreCase("js checkout"))
+//            Thread.sleep(5000);
+//        }
+//    }
+//
+//    @Step("Aggregator Hosted Payment Simulator")
+//    public void aggregatorHostedSimulator(String[] merchantData) throws Exception {
+//        ReadFromCSV portalInfo=new ReadFromCSV(System.getProperty("user.dir") + "\\Configuration_Files\\Transactions\\Payment Portals\\Aggregator_Hosted.csv");
+//        String aggregatorPortalUrl=portalInfo.ReadLineNumber(1)[0];
+//        driver.get(aggregatorPortalUrl);
+//        waitForElementXpath(driver,"//*[@id=\"me_id\"]");
+//        clickWithJavaScriptByXpath(driver,"/html/body/form/div/div[2]/div/div/div/div[1]/div/div/select/option[3]");
+//
+//    }
 
 }

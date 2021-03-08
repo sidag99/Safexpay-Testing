@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e96acda6-b8dc-4098-8b1b-45616e6c8908" name="Default Changelist" comment="setup">
-      <change afterPath="$PROJECT_DIR$/Configuration_Files/Create_Merchant_Data/Payment_Modes/CybersourcePG_Non-3DS_Key.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Configuration_Files/Transactions/Card Information/Cybersource.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Configuration_Files/Transactions/Payment Portals/Aggregator_Hosted.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Configuration_Files/Transactions/Payment Portals/JS_Checkout.csv" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Output_Files/Transactions_Status.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Configuration_Files/Create_Merchant_Data/Business_Details_All_Scenarios.csv" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Configuration_Files/Transactions/Card Information/MPGS.csv" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/allure-results/008353db-2672-486a-a28a-df5d978ff350-attachment" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/allure-results/0089930e-968d-46ae-818a-c1216adf9ae8-attachment" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/allure-results/00cf4451-c41e-4dba-9a41-d5f640a22db1-attachment" afterDir="false" />
@@ -441,9 +438,8 @@
       <change afterPath="$PROJECT_DIR$/allure-results/fe056ac8-2372-4c15-9dcd-bfc0e9806331-attachment" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/allure-results/fe54f65e-89e1-4e16-a815-3539bb6f4189-attachment" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Configuration_Files/Create_Merchant_Data/Payment_Modes/CybersourcePG_Key.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration_Files/Create_Merchant_Data/Payment_Modes/CybersourcePG_3DS_Key.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output_Files/Create_Merchant_Last_Session.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Output_Files/Create_Merchant_Last_Session.csv" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Output_Files/Merchant_Authorization_Status_Last_Session.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Output_Files/Merchant_Authorization_Status_Last_Session.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration_Files/Create_Merchant_Data/Business_Details.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration_Files/Create_Merchant_Data/Business_Details.csv" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Configuration_Files/Transactions/Card Information/Cybersource.csv" beforeDir="false" afterPath="$PROJECT_DIR$/Configuration_Files/Transactions/Card Information/Cybersource.csv" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/allure-results/0111ee42-9867-4517-9794-527d5d09ab6b-attachment" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/allure-results/061b9520-536c-4cd3-8add-21ee4517765d-attachment" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/allure-results/0fd5c435-672f-4d23-8921-91dda8d4fcb4-attachment" beforeDir="false" />
@@ -839,7 +835,14 @@
       <option name="project" value="LOCAL" />
       <updated>1615197171481</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="setup">
+      <created>1615204684884</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1615204684884</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
