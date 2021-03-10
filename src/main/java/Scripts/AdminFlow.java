@@ -4,14 +4,18 @@ import io.qameta.allure.Description;
 import io.qameta.allure.Severity;
 import io.qameta.allure.SeverityLevel;
 import io.qameta.allure.Step;
+import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
+import java.awt.*;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -20,6 +24,7 @@ import static Functions.Driver.driverAllocation;
 import static Functions.ScrollToView.*;
 import static Functions.SelectRandomFile.createRandomNum;
 import static Functions.SelectRandomFile.selectRandomFileFromList;
+import static Functions.UploadFile.uploadByXpathRobo;
 import static Read_Write_Files.WriteToCSV.*;
 import static Reports.AllureReport.*;
 import static Functions.CreateNameByTimestamp.*;
@@ -65,7 +70,7 @@ public class AdminFlow {
         System.out.println("Demo");
         clickByXpath(driver, "//*[@type=\"submit\"]");
         saveTextLog("Submit button clicked");
-        waitForElementXpath(driver,"//*[@id=\"js-side-menu-1\"]");
+        waitForElementXpath(driver,"//*[@id=\"js-side-menu-0\"]");
         Thread.sleep(1000);
         Screenshot(driver, "Login Successful");  //Saving Screenshot for allure report
     }
@@ -105,7 +110,8 @@ public class AdminFlow {
                 initializeCsvWriter(currentSessionWritePath);
                 writeNextLineCsv(dataCreateMerchant);
 
-                Thread.sleep(15000);
+                waitForElementXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[1]/div[2]/div/input");
+                Thread.sleep(2000);
             }
         }
     }
@@ -127,7 +133,42 @@ public class AdminFlow {
         waitForElementXpath(driver,"//*[@id=\"BusinessDetails\"]/form/div[1]/div[2]/div/input");
         Thread.sleep(1000);
         String testNumber=getTimestampShort();
-        String testName= "Merchant"+ testNumber;  //Make random name
+        String testName="";
+        String description="";
+        if(data[0].toLowerCase().contains("aggregator")) {
+            testName += "Agg Hosted";
+            description+="Aggregator Hosted";
+        }
+        else if(data[0].toLowerCase().contains("js")) {
+            testName += "JS Checkout";
+            description+="JS Checkout";
+        }
+        if(paymentModes[0].equalsIgnoreCase("yes")) {
+            testName += " - Cyber";
+            description+=" - CYBERSOURCEPG";
+        }
+        if(paymentModes[1].equalsIgnoreCase("yes")) {
+            testName += " - MPGS";
+            description+=" - MPGS-FAB";
+        }
+        if(paymentModes[2].equalsIgnoreCase("yes")) {
+            testName += " - Tabby";
+            description+=" - Tabby";
+        }
+        if(data[2].equalsIgnoreCase("yes")&&data[3].equalsIgnoreCase("yes")) {
+            testName += " - 3Ds - Non3Ds";
+            description+=" - Both 3DS and Non 3Ds";
+        }
+        else if (data[2].equalsIgnoreCase("yes")) {
+            testName += " - 3Ds";
+            description+=" - 3Ds";
+        }
+        else if(data[3].equalsIgnoreCase("yes")) {
+            testName += " - Non3Ds";
+            description+=" - Non 3Ds";
+        }
+
+        testName+=" - "+testNumber;  //Make Unique name
         sendKeysByXpath(driver,"//*[@ng-model=\"name\"]", testName);  //Enter Merchant
         saveTextLog("New Merchant Name: "+testName);
         dataCreateMerchant[0]=testName;
@@ -152,14 +193,13 @@ public class AdminFlow {
         Thread.sleep(1000);
         clickByXpath(driver,"/html/body/div[5]/ul/li[2]");  //Selects UAE as Country
         saveTextLog("Selected UAE");
-        Thread.sleep(5000);
+        Thread.sleep(3000);
         clickByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[6]/div[2]/div/div");  //Select Currency
         saveTextLog("Clicked Currency Dropdown Button");
         scrollToViewXpath(driver,"/html/body/div[6]/ul/li[2]");
         clickByXpath(driver,"/html/body/div[6]/ul/li[2]");  //Select AED
         saveTextLog("Selected AED as currency");
         Thread.sleep(1000);
-        String description="Description_"+ testNumber;
         scrollToCenterXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[9]/div/div/textarea");
         sendKeysByXpath(driver,"/html/body/div[1]/div/div/div/div[4]/div/div[1]/form/div[9]/div/div/textarea",description);  //Enter Description
         saveTextLog("Description Added: "+description);
@@ -245,14 +285,29 @@ public class AdminFlow {
         clickByXpath(driver,"//*[@id=\"UserDetails\"]/form/div[2]/div[1]/div/div/div/div/div/label");  //Make admin toggle
         saveTextLog("Make Admin button clicked");
         Thread.sleep(1000);
-        String randomName=getRandomString();
-        sendKeysByXpath(driver,"//*[@id=\"UserDetails\"]/form/div[2]/div[2]/div[1]/div/input","FName"+randomName);  //First name added
-        saveTextLog("First Name Added: FName"+randomName);
-        dataCreateMerchant[4]="FName"+randomName;
+        String userName="";
+        if(data[0].toLowerCase().contains("aggregator"))
+            userName+="AGG";
+        else if(data[0].toLowerCase().contains("js"))
+            userName+="JS";
+        if(paymentModes[0].equalsIgnoreCase("yes"))
+            userName+="cyb";
+        if(paymentModes[1].equalsIgnoreCase("yes"))
+            userName+="mpg";
+        if(data[2].equalsIgnoreCase("yes")&&data[3].equalsIgnoreCase("yes"))
+            userName+="MixThreeDs";
+        else if (data[2].equalsIgnoreCase("yes"))
+            userName+="ThreeDs";
+        else if(data[3].equalsIgnoreCase("yes"))
+            userName+="NonThreeDs";
+        sendKeysByXpath(driver,"//*[@id=\"UserDetails\"]/form/div[2]/div[2]/div[1]/div/input",userName);  //First name added
+        saveTextLog("First Name Added: FName"+userName);
+        dataCreateMerchant[4]="FName"+userName;
         Thread.sleep(1000);
-        sendKeysByXpath(driver,"//*[@id=\"UserDetails\"]/form/div[2]/div[2]/div[2]/div/input","LName"+randomName);  //Last Name added
-        saveTextLog("Last Name Added: LName"+randomName);
-        dataCreateMerchant[5]="LName"+randomName;
+        String lastName=getRandomString();
+        sendKeysByXpath(driver,"//*[@id=\"UserDetails\"]/form/div[2]/div[2]/div[2]/div/input",lastName);  //Last Name added
+        saveTextLog("Last Name Added: LName"+lastName);
+        dataCreateMerchant[5]="LName"+lastName;
         Thread.sleep(1000);
         sendKeysByXpath(driver,"//*[@id=\"UserDetails\"]/form/div[2]/div[3]/div[1]/div/input","padmawati.taddy@bankfab.com");  //Email Added
         saveTextLog("Email Added: padmawati.taddy@bankfab.com");
@@ -534,124 +589,9 @@ public class AdminFlow {
             Screenshot(driver,"Merchant name not available on first index");
         }
     }
-    //-----------------User Creation Module------------------
-    //@Test(priority=3, description = "User Creation Flow")
-    @Severity(SeverityLevel.CRITICAL)
-    @Description("User Creation Flow")
-    public void createUser() throws Exception {
-        String random_string=getRandomString();
-        merchant_userDetails(random_string);
-        Thread.sleep(2000);
-        aggregate_maker(random_string);
-        Thread.sleep(2000);
-        aggregate_checker(random_string);
-        Thread.sleep(2000);
-        //EditUser();
-    }
-    //------------Entering User Details-----------------
-    @Step("Enter Merchant User Details")
-    public void merchant_userDetails(String random_strings) throws Exception {
-        String[] Merchant_Details_writer=new String[4];
-        //---------------------Navigate to User Management-----------------------------
-        waitAndClickByXpath(driver,"//*[@id=\"js-side-menu-0\"]"); // User Management
-        saveTextLog("Navigate to User Management");
-        //---------------------Navigate to Create User---------------------------------
-        clickByXpath(driver,"//*[@id=\"js-side-menu-0\"]/ul/li[1]/a");
-        saveTextLog("Navigate to Create User");
-        Thread.sleep(2000);
-        //-------------------------------Merchant Option-------------------------------
-        saveTextLog("Creating Merchant User");
-        waitAndClickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[1]/div[1]/div/select/option[3]"); // Merchant Option
-        Thread.sleep(2000);
-        clickByXpath(driver,"/html/body/div[1]/div/form/div[4]/div[2]/div[1]/div[2]/div/div/a"); // Role Name
-        Thread.sleep(2000);
-        waitAndClickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[2]/div"); // Merchant Admin
-        Thread.sleep(2000);
-        //--------------------------------Selecting Merchant Name---------------------------
-        String ReferralDetailsCsvPath = System.getProperty("user.dir") + "\\Configuration_Files\\Create_Merchant_Data\\Referral_URLs.csv";  //path to get details file
-        ReadFromCSV csvReferral = new ReadFromCSV(ReferralDetailsCsvPath);  //Reading file
-        waitAndClickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[1]/div[3]/div/select/option[@label=\"merchantdemo\"]");
-        Thread.sleep(2000);
-        //--------------------------------Enter UserId--------------------------------------------------
-        saveTextLog("Entering Merchant User Details");
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[1]/div/input","merch"+random_strings); // UserId
-        Merchant_Details_writer[0]="merchant"+random_strings;
-        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[2]/div/div/label");
-        //--------------------------------Enter First Name Last Name and Email--------------------------
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[1]/div/input","Fname_"+random_strings); // First Name
-        Merchant_Details_writer[1]="Fname_"+random_strings;
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[2]/div/input","Lname_"+random_strings); // Last name
-        Merchant_Details_writer[2]="Lname_"+random_strings;
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[4]/div[1]/div/input","padmawati.taddy@bankfab.com"); // Email
-        Merchant_Details_writer[3]="padmawati.taddy@bankfab.com";
-        Thread.sleep(2000);
-        initializeCsvWriter("Output_Files/Create_User_Details_Allsessions.csv"); // Write Details to File
-        writeNextLineCsv(Merchant_Details_writer);
-        deleteContentsOfCsv("Output_Files/Create_User_Detail_last_run.csv");
-        initializeCsvWriter("Output_Files/Create_User_Detail_last_run.csv"); // Write Details to File
-        writeNextLineCsv(Merchant_Details_writer);
-        //--------------------------------Submitting User Merchant Details--------------------------------
-        saveTextLog("Submitting Merchant User");
-        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[4]/button");
-    }
-
-    @Step("Create Aggregate Maker")
-    public void aggregate_maker(String random_string) throws InterruptedException, IOException {
-        String[] Maker_Details_writer=new String[4];
-        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[1]/div[1]/div/select/option[2]"); // Aggregate
-        Thread.sleep(2000);
-        clickByXpath(driver,"/html/body/div[1]/div/form/div[4]/div[2]/div[1]/div[2]/div/div/a"); // Role Name
-        waitAndClickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[2]/div"); // Maker Option
-        Thread.sleep(2000);
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[1]/div/input","maker"+random_string); // UserId
-        Maker_Details_writer[0]="maker"+random_string;
-        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[2]/div/div/label"); // Is Admin Toggle
-        //-----------------------Enter First Name Last Name and Email--------------------------
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[1]/div/input","Fmaker_"+random_string); // First Name
-        Maker_Details_writer[1]="Fmaker_"+random_string;
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[2]/div/input","Lmaker_"+random_string); // Last Name
-        Maker_Details_writer[2]="Lmaker"+random_string;
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[4]/div[1]/div/input","padmawati.taddy@bankfab.com"); // Email
-        Maker_Details_writer[3]="padmawati.taddy@bankfab.com";
-        Thread.sleep(2000);
-        initializeCsvWriter("Output_Files/Create_User_Details_Allsessions.csv"); // Write to File
-        writeNextLineCsv(Maker_Details_writer);
-        initializeCsvWriter("Output_Files/Create_User_Detail_last_run.csv"); // Write Details to File
-        writeNextLineCsv(Maker_Details_writer);
-        //-------------------------------------Submitting User Maker Details-------------------------------------
-        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[4]/button");
-    }
-
-    @Step("Create Aggragator Checker")
-    public void aggregate_checker(String random_string) throws InterruptedException, IOException {
-        String [] Checker_Detail_Writer=new String[4];
-        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[1]/div[1]/div/select/option[2]"); // Aggregate
-        Thread.sleep(2000);
-        clickByXpath(driver,"/html/body/div[1]/div/form/div[4]/div[2]/div[1]/div[2]/div/div/a"); // Role Name
-        waitAndClickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[2]/div"); // Checker
-        Thread.sleep(2000);
-        String userId="check"+random_string;
-        Checker_Detail_Writer[0]=userId;
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[1]/div/input",userId); // UserId
-        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[2]/div/div/label"); // Is Admin Toggle
-        //-----------------------Enter First Name Last Name and Email--------------------------
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[1]/div/input","Fchecker_"+random_string); // First Name
-        Checker_Detail_Writer[1]="Fchecker"+random_string;
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[2]/div/input","Lchecker_"+random_string); // Last Name
-        Checker_Detail_Writer[2]="Lchecker"+random_string;
-        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[4]/div[1]/div/input","padmawati.taddy@bankfab.com"); // Email
-        Checker_Detail_Writer[3]="padmawati.taddy@bankfab.com";
-        Thread.sleep(2000);
-        initializeCsvWriter("Output_Files/Create_User_Details_Allsessions.csv"); // Write details to file
-        writeNextLineCsv(Checker_Detail_Writer);
-        initializeCsvWriter("Output_Files/Create_User_Detail_last_run.csv"); // Write Details to File
-        writeNextLineCsv(Checker_Detail_Writer);
-        //------------------------Submitting User Checker Details-------------------------------
-        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[4]/button");
-    }
 
     //------------------------Opening Checker Admin account-------------------------------
-    //@Test(priority=4, description = "Opening Safexpay website and logging in for checker")
+    //@Test(priority=3, description = "Opening Safexpay website and logging in for checker")
     @Severity(SeverityLevel.BLOCKER)
     @Description("Test setup by opening the login page and logging in")
     public void testSetupAdminChecker() throws Exception {
@@ -664,7 +604,7 @@ public class AdminFlow {
     }
 
     //------------------------Authorizing merchants created-------------------------------
-    //@Test(priority=5, description = "Checker Authorize Flow")
+    //@Test(priority=4, description = "Checker Authorize Flow")
     @Severity(SeverityLevel.CRITICAL)
     @Description("Merchant Authorization Flow")
     public void checkerAdmin() throws Exception{
@@ -688,6 +628,7 @@ public class AdminFlow {
             Thread.sleep(5000);
         }
     }
+
     @Step("Opening Manage Merchant")
     public void openManageMerchantChecker() throws InterruptedException {
         waitAndClickByXpath(driver,"//*[@id=\"js-side-menu-1\"]");  //Clicks Merchant Management
@@ -757,30 +698,487 @@ public class AdminFlow {
         }
 
     }
-    //--------------------------------Transaction Simulation----------------
-//    @Test(priority = 6,description = "Transaction Simulation")
-//    @Severity(SeverityLevel.CRITICAL)
-//    @Description("This test is for simulating transactions")
-//    public void transactionSimulation() throws Exception {
-//        ReadFromCSV lastRun=new ReadFromCSV(System.getProperty("user.dir") + "\\Output_Files\\Merchant_Authorization_Status_Last_Session.csv");
-//        for(int i=1;i<lastRun.SizeOfFile();i++)
-//        {
-//            String [] lastData=lastRun.ReadLineNumber(i);
-//            if(lastData[1].equalsIgnoreCase("aggregator hosted"))
-//                aggregatorHostedSimulator(lastData);
-//            else if(lastData[1].equalsIgnoreCase("js checkout"))
-//            Thread.sleep(5000);
-//        }
-//    }
-//
-//    @Step("Aggregator Hosted Payment Simulator")
-//    public void aggregatorHostedSimulator(String[] merchantData) throws Exception {
-//        ReadFromCSV portalInfo=new ReadFromCSV(System.getProperty("user.dir") + "\\Configuration_Files\\Transactions\\Payment Portals\\Aggregator_Hosted.csv");
-//        String aggregatorPortalUrl=portalInfo.ReadLineNumber(1)[0];
-//        driver.get(aggregatorPortalUrl);
-//        waitForElementXpath(driver,"//*[@id=\"me_id\"]");
-//        clickWithJavaScriptByXpath(driver,"/html/body/form/div/div[2]/div/div/div/div[1]/div/div/select/option[3]");
-//
-//    }
+
+
+    @Test(priority=5, description = "Opening Safexpay website and logging in")
+    @Severity(SeverityLevel.BLOCKER)
+    @Description("Test setup by opening the login page and logging in")
+    public void testSetupAdminMakerUser() throws Exception {
+        String path = System.getProperty("user.dir") + "\\Configuration_Files\\Admin_Credentials.csv";  //path to get login details file or credentials file
+        ReadFromCSV csv = new ReadFromCSV(path);  //Reading credentials file
+        String[] credential = csv.ReadLineNumber(1); //Reads first line containing login id and password
+        System.out.println(Arrays.toString(credential));
+        openUrl(credential[0]);
+        login(credential[1],credential[3]);
+    }
+
+    //-----------------User Creation Module------------------
+    @Test(priority=6, description = "User Creation Flow")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("User Creation Flow")
+    public void createUser() throws Exception {
+        ReadFromCSV lastRun=new ReadFromCSV(System.getProperty("user.dir") + "\\Output_Files\\Merchant_Authorization_Status_Last_Session.csv");
+        String random_string;
+        deleteContentsOfCsv("Output_Files/Create_User_Detail_last_run.csv");
+        for(int i=1;i<lastRun.SizeOfFile();i++)
+        {
+            random_string=getRandomString();
+            if(lastRun.ReadLineNumber(i)[9].equalsIgnoreCase("yes")) {
+                String mName = lastRun.ReadLineNumber(i)[0];
+                merchant_userDetails(random_string, mName);
+                Thread.sleep(5000);
+            }
+        }
+        Thread.sleep(2000);
+        random_string=getRandomString();
+        aggregate_maker(random_string);
+        Thread.sleep(2000);
+        aggregate_checker(random_string);
+        Thread.sleep(2000);
+        EditUser();
+    }
+    //------------Entering User Details-----------------
+    @Step("Enter Merchant User Details")
+    public void merchant_userDetails(String random_strings, String merchantName) throws Exception {
+        String[] Merchant_Details_writer=new String[4];
+        //---------------------Navigate to User Management-----------------------------
+        waitAndClickByXpath(driver,"//*[@id=\"js-side-menu-0\"]"); // User Management
+        saveTextLog("Navigate to User Management");
+        //---------------------Navigate to Create User---------------------------------
+        clickByXpath(driver,"//*[@id=\"js-side-menu-0\"]/ul/li[1]/a");
+        saveTextLog("Navigate to Create User");
+        Thread.sleep(2000);
+        //-------------------------------Merchant Option-------------------------------
+        saveTextLog("Creating Merchant User");
+        waitAndClickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[1]/div[1]/div/select/option[3]"); // Merchant Option
+        Thread.sleep(2000);
+        clickByXpath(driver,"/html/body/div[1]/div/form/div[4]/div[2]/div[1]/div[2]/div/div/a"); // Role Name
+        Thread.sleep(2000);
+        waitAndClickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[2]/div"); // Merchant Admin
+        Thread.sleep(2000);
+        //--------------------------------Selecting Merchant Name---------------------------
+        List<WebElement> merchantsList=driver.findElements(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[1]/div[3]/div/select/option"));
+        for(WebElement element : merchantsList){
+            if(element.getAttribute("label").equalsIgnoreCase(merchantName))
+            {
+                element.click();
+                saveTextLog("Merchant selected: "+merchantName);
+                Thread.sleep(2000);
+            }
+        }
+        Thread.sleep(2000);
+        //--------------------------------Enter UserId--------------------------------------------------
+        saveTextLog("Entering Merchant User Details");
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[1]/div/input","merch"+random_strings); // UserId
+        Merchant_Details_writer[0]="merch"+random_strings;
+        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[2]/div/div/label");
+        //--------------------------------Enter First Name Last Name and Email--------------------------
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[1]/div/input","Fname_"+random_strings); // First Name
+        Merchant_Details_writer[1]="Fname_"+random_strings;
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[2]/div/input","Lname_"+random_strings); // Last name
+        Merchant_Details_writer[2]="Lname_"+random_strings;
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[4]/div[1]/div/input","padmawati.taddy@bankfab.com"); // Email
+        Merchant_Details_writer[3]="padmawati.taddy@bankfab.com";
+        Thread.sleep(2000);
+        initializeCsvWriter("Output_Files/Create_User_Details_Allsessions.csv"); // Write Details to File
+        writeNextLineCsv(Merchant_Details_writer);
+        initializeCsvWriter("Output_Files/Create_User_Detail_last_run.csv"); // Write Details to File
+        writeNextLineCsv(Merchant_Details_writer);
+        //--------------------------------Submitting User Merchant Details--------------------------------
+        saveTextLog("Submitting Merchant User");
+        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[4]/button");
+        Thread.sleep(2000);
+        String message=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/form/div[2]/p"))).getText();
+        saveTextLog(Merchant_Details_writer[0]+" "+message);
+        System.out.println(message);
+    }
+    @Step("Create Aggregate Maker")
+    public void aggregate_maker(String random_string) throws InterruptedException, IOException {
+        String[] Maker_Details_writer=new String[4];
+        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[1]/div[1]/div/select/option[2]"); // Aggregate
+        Thread.sleep(3000);
+        clickByXpath(driver,"/html/body/div[1]/div/form/div[4]/div[2]/div[1]/div[2]/div/div/a"); // Role Name
+        waitAndClickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[2]/div"); // Maker Option
+        Thread.sleep(2000);
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[1]/div/input","maker"+random_string); // UserId
+        Maker_Details_writer[0]="maker"+random_string;
+        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[2]/div/div/label"); // Is Admin Toggle
+        //-----------------------Enter First Name Last Name and Email--------------------------
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[1]/div/input","Fmaker_"+random_string); // First Name
+        Maker_Details_writer[1]="Fmaker_"+random_string;
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[2]/div/input","Lmaker_"+random_string); // Last Name
+        Maker_Details_writer[2]="Lmaker"+random_string;
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[4]/div[1]/div/input","padmawati.taddy@bankfab.com"); // Email
+        Maker_Details_writer[3]="padmawati.taddy@bankfab.com";
+        Thread.sleep(2000);
+        initializeCsvWriter("Output_Files/Create_User_Details_Allsessions.csv"); // Write to File
+        writeNextLineCsv(Maker_Details_writer);
+        initializeCsvWriter("Output_Files/Create_User_Detail_last_run.csv"); // Write Details to File
+        writeNextLineCsv(Maker_Details_writer);
+        //-------------------------------------Submitting User Maker Details-------------------------------------
+        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[4]/button");
+        String message=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/form/div[2]/p"))).getText();
+        saveTextLog(Maker_Details_writer[0]+" "+message);
+        System.out.println(message);
+    }
+    @Step("Create Aggragator Checker")
+    public void aggregate_checker(String random_string) throws InterruptedException, IOException {
+        String [] Checker_Detail_Writer=new String[4];
+        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[1]/div[1]/div/select/option[2]"); // Aggregate
+        Thread.sleep(2000);
+        clickByXpath(driver,"/html/body/div[1]/div/form/div[4]/div[2]/div[1]/div[2]/div/div/a"); // Role Name
+        waitAndClickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[3]/div");
+        Thread.sleep(2000);
+        String userId="check"+random_string;
+        Checker_Detail_Writer[0]=userId;
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[1]/div/input",userId); // UserId
+        clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[2]/div[2]/div/div/label"); // Is Admin Toggle
+        //-----------------------Enter First Name Last Name and Email--------------------------
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[1]/div/input","Fchecker_"+random_string); // First Name
+        Checker_Detail_Writer[1]="Fchecker"+random_string;
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[3]/div[2]/div/input","Lchecker_"+random_string); // Last Name
+        Checker_Detail_Writer[2]="Lchecker"+random_string;
+        sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[4]/div[1]/div/input","padmawati.taddy@bankfab.com"); // Email
+        Checker_Detail_Writer[3]="padmawati.taddy@bankfab.com";
+        Thread.sleep(2000);
+        initializeCsvWriter("Output_Files/Create_User_Details_Allsessions.csv"); // Write details to file
+        writeNextLineCsv(Checker_Detail_Writer);
+        initializeCsvWriter("Output_Files/Create_User_Detail_last_run.csv"); // Write Details to File
+        writeNextLineCsv(Checker_Detail_Writer);
+        //------------------------Submitting User Checker Details-------------------------------
+        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[4]/button");
+        String message=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/form/div[2]/p"))).getText();
+        saveTextLog(Checker_Detail_Writer[0]+" "+message);
+        System.out.println(message);
+    }
+    @Step("Edit Users")
+    public void EditUser() throws Exception {
+        ReadFromCSV read_data= new ReadFromCSV("Output_Files/Create_User_Detail_last_run.csv"); // UserIds from file
+        String userIds;
+        for(int i=1;i<read_data.SizeOfFile();i++)
+        {
+            userIds= read_data.ReadLineNumber(i)[0];
+            Thread.sleep(1000);
+            sendKeysByXpath(driver, "//*[@id=\"avantgarde\"]/div[1]/div/div/div[2]/div/table/tbody/tr[1]/td[2]/input",userIds); // Search userId
+            Thread.sleep(2000);
+            clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div[2]/div/table/tbody/tr[2]/td[8]/button[3]/i"); // Delete user
+            Alert alert= driver.switchTo().alert(); // alert Delete
+            Thread.sleep(2000);
+            alert.accept(); // Click on Ok
+            String message=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/form/div[2]/p"))).getText();
+            saveTextLog(userIds+" "+message);
+            System.out.println("Delete");
+            Thread.sleep(5000);
+            clickByXpath(driver,"/html/body/div[1]/div/div/div[2]/div/table/tbody/tr[2]/td[8]/button[5]"); // Reset Password
+            alert= driver.switchTo().alert();
+            Thread.sleep(2000);
+            alert.accept();
+            String message1=wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/form/div[2]/p"))).getText();
+            saveTextLog(userIds+":"+message1);
+            Screenshot(driver,"Reset Password");
+            System.out.println("Reset Password");
+            Thread.sleep(3000);
+            clickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div[2]/div/table/tbody/tr[2]/td[8]/button[2]/i"); // Edit
+            Thread.sleep(1000);
+            sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/form/div[4]/div[2]/div[4]/div[2]/div/input","9422222222"); // Enter Phone Number
+            clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[4]/button"); // Submit
+            saveTextLog("Edit user"+" "+userIds);
+            System.out.println("Edit");
+            Screenshot(driver,"User Edit");
+            driver.findElement(By.xpath("//*[@id=\"avantgarde\"]/div[1]/div/div/div[2]/div/table/tbody/tr[1]/td[2]/input")).clear();
+        }
+    }
+
+
+    //@Test(priority=7, description = "EPP Flow")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("EPP Flow")
+    public void EPPflow() throws Exception {
+
+        binUploadFile();
+    }
+
+    @Step("Bin Upload File")
+    public void binUploadFile() throws AWTException, InterruptedException {
+        clickByXpath(driver,"//*[@id=\"js-side-menu-4\"]"); // EPP navigation
+        waitAndClickByXpath(driver,"//*[@id=\"js-side-menu-4\"]/ul/li[2]"); // Bin Upload File
+        //sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/form/div[4]/div/div/div[1]/div/div/button","Configuration_Files/new24emiBinUpload.xlsx");
+        waitAndClickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/form/div[4]/div/div/div[3]/div/div/a");
+        uploadByXpathRobo(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/form/div[4]/div/div/div[1]/div/div/button",System.getProperty("user.dir")+"\\Configuration_Files\\Bin Uploads\\new24emiBinUpload.xlsx");
+        Thread.sleep(5000);
+        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[2]/button");
+    }
+
+
+    //@Test(priority=8, description = "Transaction Management Flow")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Transaction Management")
+    public void TransactionMangement() throws InterruptedException, AWTException {
+        masterBinUpload();
+    }
+    @Step("Master Bin Upload")
+    public void masterBinUpload() throws AWTException, InterruptedException {
+        Thread.sleep(7000);
+        clickByXpath(driver,"//*[@id=\"js-side-menu-5\"]");
+        waitAndClickByXpath(driver,"//*[@id=\"js-side-menu-5\"]/ul/li");
+        //sendKeysByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/form/div[4]/div/div/div[1]/div/div/button","Configuration_Files/new24emiBinUpload.xlsx");
+        Thread.sleep(5000);
+        waitAndClickByXpath(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/form/div[4]/div/div/div[3]/div/div/a");
+        Thread.sleep(5000);
+        uploadByXpathRobo(driver,"//*[@id=\"avantgarde\"]/div[1]/div/div/div/form/div[4]/div/div/div[1]/div/div/button",System.getProperty("user.dir")+"\\Configuration_Files\\Bin Uploads\\new24masterBinUpload.xlsx");
+        Thread.sleep(2000);
+        clickByXpath(driver,"//*[@id=\"heading-action-wrapper\"]/div/div/div[2]/button");
+    }
+
+
+
+    //------------------------Transaction Simulation---------------------
+    //@Test(priority = 9,description = "Transaction Simulation")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("This test is for simulating transactions")
+    public void transactionSimulation() throws Exception {
+        ReadFromCSV lastRun=new ReadFromCSV(System.getProperty("user.dir") + "\\Output_Files\\Merchant_Authorization_Status_Last_Session.csv");
+        for(int i=1;i<lastRun.SizeOfFile();i++)
+        {
+            String [] lastData=lastRun.ReadLineNumber(i);
+            if(lastData[1].equalsIgnoreCase("aggregator hosted")) {
+                aggregatorHostedSimulator(lastData, false);
+                aggregatorHostedSimulator(lastData, false);
+                aggregatorHostedSimulator(lastData, false);
+                aggregatorHostedSimulator(lastData, false);
+                aggregatorHostedSimulator(lastData, false);
+                //aggregatorHostedSimulator(lastData, true);
+            }
+            else if(lastData[1].equalsIgnoreCase("js checkout"))
+            Thread.sleep(5000);
+        }
+    }
+
+    @Step("Aggregator Hosted Payment Simulator")
+    public void aggregatorHostedSimulator(String[] merchantData, boolean tabby) throws Exception {
+        ReadFromCSV portalInfo=new ReadFromCSV(System.getProperty("user.dir") + "\\Configuration_Files\\Transactions\\Payment Portals\\Aggregator_Hosted.csv");
+        String aggregatorPortalUrl=portalInfo.ReadLineNumber(1)[0];
+        driver.get(aggregatorPortalUrl);
+        waitForElementXpath(driver,"//*[@id=\"me_id\"]");
+        clickByXpath(driver,"/html/body/form/div/div[2]/div/div/div/div[1]/div/div/select/option[3]");
+        Thread.sleep(500);
+        sendKeysByXpath(driver,"//*[@id=\"me_id\"]",merchantData[7]);
+        saveTextLog("Merchant Id: "+merchantData[7]);
+        sendKeysByXpath(driver,"//*[@id=\"me_key\"]",merchantData[8]);
+        saveTextLog("Merchant Key: "+merchantData[8]);
+        String orderid=driver.findElement(By.xpath("//*[@id=\"order_no\"]")).getText();
+        saveTextLog("Order number: "+orderid);
+        int amount=createRandomNum(100,10000);
+        sendKeysByXpath(driver,"//*[@id=\"amount\"]",Integer.toString(amount));
+        saveTextLog("Amount: "+amount);
+        clickByXpath(driver,"/html/body/form/div/div[2]/div/div/div/div[3]/div[1]/div/div[3]/div/div/select/option[5]");
+        saveTextLog("Country selected: "+driver.findElement(By.xpath("/html/body/form/div/div[2]/div/div/div/div[3]/div[1]/div/div[3]/div/div/select/option[5]")).getText());
+        clickByXpath(driver,"/html/body/form/div/div[2]/div/div/div/div[3]/div[1]/div/div[4]/div/div/select/option[5]");
+        saveTextLog("Currency selected: "+driver.findElement(By.xpath("/html/body/form/div/div[2]/div/div/div/div[3]/div[1]/div/div[4]/div/div/select/option[5]")).getText());
+        scrollToCenterXpath(driver,"//*[@id=\"cust_name\"]");
+        String randomName=getRandomString();
+        sendKeysByXpath(driver,"//*[@id=\"cust_name\"]",randomName);
+        saveTextLog("Name: "+randomName);
+        sendKeysByXpath(driver,"//*[@id=\"email_id\"]",(randomName+"@gmail.com"));
+        saveTextLog("Email: "+(randomName+"@gmail.com"));
+        String phone=getTimestamp("yyMMddmmss");
+        sendKeysByXpath(driver,"//*[@id=\"mobile_no\"]",phone);
+        saveTextLog("Phone Number: "+phone);
+        scrollToCenterXpath(driver,"//*[@id=\"bill_address\"]");
+        sendKeysByXpath(driver,"//*[@id=\"bill_address\"]","Address_"+randomName);
+        saveTextLog("Address: "+"Address_"+randomName);
+        sendKeysByXpath(driver,"//*[@id=\"bill_city\"]","City_"+randomName);
+        saveTextLog("City: "+"City_"+randomName);
+        sendKeysByXpath(driver,"//*[@id=\"bill_state\"]","State_"+randomName);
+        saveTextLog("State: "+"State_"+randomName);
+        sendKeysByXpath(driver,"//*[@id=\"bill_country\"]","Country_"+randomName);
+        saveTextLog("Country: "+"Country_"+randomName);
+        String zip=getTimestampShort();
+        sendKeysByXpath(driver,"//*[@id=\"bill_zip\"]",zip);
+        saveTextLog("Zip: "+zip);
+        Thread.sleep(2000);
+        clickByXpath(driver,"/html/body/form/div/div[2]/div/div/div/div[4]/div/div/div/button");
+        saveTextLog("Checkout Button Clicked");
+        String stepName="Transaction for: "+merchantData[0]+" | ID: "+merchantData[7];
+
+        try{
+            waitForPageToLoad(driver);
+            if(!driver.findElement(By.xpath("//*[@type=\"submit\"]")).isEnabled())
+            {
+                throw new Exception("Transaction Failed");
+            }else{
+                if(tabby){
+                    clickByXpath(driver,"//*[@id=\"PL\"]");
+                    saveTextLog("Pay Later Clicked");
+                    Thread.sleep(1000);
+                    clickByXpath(driver,"//*[@id=\"payBankNameId\"]");
+                    Thread.sleep(1000);
+                    clickByXpath(driver,"//*[@id=\"payinst\"]");
+                    ReadFromCSV tabbyCsv = new ReadFromCSV(System.getProperty("user.dir") + "/Configuration_Files/Transactions/Card Information/Tabby.csv");
+                    String[] tabbyDetails=tabbyCsv.ReadLineNumber(1);
+                    sendKeysByXpath(driver,"//*[@id=\"lp_emailid\"]",tabbyDetails[0]);
+                    saveTextLog("Email added: "+tabbyDetails);
+                    sendKeysByXpath(driver,"//*[@id=\"lp_custName\"]",randomName);
+                    saveTextLog("Name added: "+randomName);
+                    Thread.sleep(1000);
+                    clickByXpath(driver,"//*[@id=\"buttonLPInst\"]");
+                    Thread.sleep(1000);
+                    WebElement iframe=driver.findElement(By.tagName("iframe"));
+                    driver.switchTo().frame(iframe);
+                    iframe.findElement(By.xpath("//*[@placeholder=\"Mobile phone\"]")).sendKeys(tabbyDetails[1]);
+
+
+                }else {
+                    Thread.sleep(2000);
+                    ReadFromCSV cardDetails = null;
+                    if (merchantData[4].equalsIgnoreCase("yes"))
+                        cardDetails = new ReadFromCSV(System.getProperty("user.dir") + "/Configuration_Files/Transactions/Card Information/Cybersource.csv");
+                    else if (merchantData[5].equalsIgnoreCase("yes"))
+                        cardDetails = new ReadFromCSV(System.getProperty("user.dir") + "/Configuration_Files/Transactions/Card Information/MPGS.csv");
+                    List<String[]> cards = new ArrayList<>();
+                    if (cardDetails != null) {
+                        for (int i = 1; i < cardDetails.SizeOfFile(); i++) {
+                            String[] temp = cardDetails.ReadLineNumber(i);
+                            if (merchantData[2].equalsIgnoreCase(temp[4]) || merchantData[3].equalsIgnoreCase(temp[5])) {
+                                cards.add(temp);
+                            }
+                        }
+                        Thread.sleep(2000);
+                        String[] selectedCard = cards.get(createRandomNum(0, cards.size() - 1));
+                        sendKeysByXpath(driver, "//*[@id=\"cdCardNumber\"]", selectedCard[0]);
+                        saveTextLog("Card Number: " + selectedCard[0]);
+                        Thread.sleep(1000);
+
+                        sendKeysByXpath(driver, "//*[@id=\"name\"]", randomName);
+                        saveTextLog("Name on Card: " + randomName);
+                        Thread.sleep(1000);
+
+                        String month = selectedCard[1];
+                        WebElement monthsList = driver.findElement(By.xpath("//*[@id=\"cdExpiryMonth\"]"));
+                        monthsList.findElement(By.xpath("//*[@value=\"" + month + "\"]")).click();
+                        saveTextLog("Expiry Month: " + month);
+                        Thread.sleep(1000);
+
+                        String year = selectedCard[2];
+                        WebElement yearList = driver.findElement(By.xpath("//*[@id=\"cdExpYear\"]"));
+                        yearList.findElement(By.xpath("//*[@value=\"" + year + "\"]")).click();
+                        saveTextLog("Expiry Month: " + year);
+                        Thread.sleep(1000);
+
+                        sendKeysByXpath(driver, "//*[@id=\"cdCVV\"]", selectedCard[3]);
+                        saveTextLog("CVV: " + selectedCard[3]);
+                        Thread.sleep(1000);
+
+                        clickByXpath(driver, "//*[@type=\"submit\"]");
+                        Thread.sleep(2000);
+                        try {
+                            if (merchantData[2].equalsIgnoreCase("yes")) {
+                                waitForPageToLoad(driver);
+                                if (driver.getCurrentUrl().contains("https://merchantacsstag.cardinalcommerce.com")) {
+                                    sendKeysByXpath(driver, "//*[@id=\"password\"]", "1234");
+                                    saveTextLog("Password entered: " + "1234");
+                                    Thread.sleep(1000);
+                                    clickByXpath(driver, "//*[@value=\"Submit\"]");
+                                } else if (driver.getCurrentUrl().contains("https://safexpayuat.bankfab.com/agcore/checkPay#no-back")) {
+                                    waitForElementToBeStale(driver, "//*[@onclick=\"changeAction('YES')\"]");
+                                } else if (driver.getCurrentUrl().contains("https://ap.gateway.mastercard.com/acs/VisaACS") ||
+                                        driver.getCurrentUrl().contains("https://ap.gateway.mastercard.com/acs/MastercardACS")) {
+                                    clickByXpath(driver, "//*[@value=\"Submit\"]");
+                                }
+                            }
+                        } catch (Exception e) {
+                            saveTextLog("Error in payment: " + e.getMessage());
+                        }
+                    }
+                }
+                try {
+                    waitForPageToLoad(driver);
+                    if(driver.getCurrentUrl().contains("https://fabpg.safexpay.com/simulator/response?")) {
+                        waitForElementXpathByTime(driver, "/html/body/div/div[2]/div/div/div/h2", 20);
+                        Thread.sleep(1000);
+                        Screenshot(driver, "Payment response page");
+                        String[] orderDetails = new String[7];
+                        orderDetails[0] = driver.findElement(By.xpath("/html/body/div/div[2]/div/div/div/div/div[1]/legend[2]")).getText();
+                        orderDetails[1] = driver.findElement(By.xpath("/html/body/div/div[2]/div/div/div/div/div[4]/div[1]/div/div")).getText();
+                        orderDetails[2] = driver.findElement(By.xpath("/html/body/div/div[2]/div/div/div/div/div[5]/div[1]/div/div")).getText();
+                        orderDetails[3] = driver.findElement(By.xpath("/html/body/div/div[2]/div/div/div/div/div[5]/div[2]/div/div")).getText();
+                        orderDetails[4] = driver.findElement(By.xpath("/html/body/div/div[2]/div/div/div/div/div[6]/div[2]/div/div")).getText();
+                        orderDetails[5] = driver.findElement(By.xpath("/html/body/div/div[2]/div/div/div/div/div[4]/div[2]/div/div")).getText();
+                        orderDetails[6] = driver.findElement(By.xpath("/html/body/div/div[2]/div/div/div/div/div[6]/div[1]/div/div")).getText();
+                        for (int i = 0; i < 7; i++) {
+                            System.out.println(orderDetails[i]);
+                        }
+                    }
+                }catch (Exception e)
+                {
+                    Screenshot(driver,"");
+                }
+
+            }
+        }catch (Exception e){
+            if(driver.getCurrentUrl().contains("https://safexpayuat.bankfab.com/agcore/payment#no-back")){
+                Screenshot(driver,driver.findElement(By.xpath("//*[@id=\"resnavtab\"]/div/div")).getText());
+                orderid=driver.findElement(By.xpath("//*[@id=\"pg-col\"]/div[1]/div[3]/span[2]")).getText();
+                if(merchantData[9].equalsIgnoreCase("no")){
+                    saveTextLog("Scenario Successful, Merchant was Not Authorized");
+                }
+                else {
+                    saveTextLog("Some error occurred");
+                }
+            }else System.out.println("UHSfuhasiufhajfkjafa");
+        }
+    }
+
+    //-----------------------------Merchant Refund test-------------------
+    //@Test(priority = 10,description = "Merchant refund test")
+    @Severity(SeverityLevel.CRITICAL)
+    @Description("Logging into merchant account")
+    public void testMerchantUser() throws Exception {
+        String path = System.getProperty("user.dir") + "\\Configuration_Files\\Merchant_Credentials.csv";  //path to get login details file or credentials file
+        ReadFromCSV csv = new ReadFromCSV(path);  //Reading credentials file
+        String[] credential = csv.ReadLineNumber(1); //Reads first line containing login id and password
+        openUrl(credential[0]);
+        ReadFromCSV velocity=new ReadFromCSV(System.getProperty("user.dir") + "/Configuration_Files/Create_Merchant_Data/Velocity_Details.csv");
+        String[] velocityDetails=velocity.ReadLineNumber(1);
+        //for (int i=1;i< csv.SizeOfFile();i++){
+            credential=csv.ReadLineNumber(1);
+            login(credential[1],credential[2]);
+            Thread.sleep(1000);
+            clickByXpath(driver,"//*[@id=\"js-side-menu-0\"]");
+            saveTextLog("MIS Button Clicked");
+            Thread.sleep(500);
+            driver.findElement(By.xpath("//*[@id=\"js-side-menu-0\"]")).findElement(By.xpath("//*[@href=\"#transactionMIS\"]")).click();
+            saveTextLog("Transaction MIS Clicked");
+            refundTransaction(velocityDetails);
+        //}
+    }
+
+
+    @Step("Refund Transaction")
+    public void refundTransaction(String[] velocityDetails) throws InterruptedException {
+        waitForElementXpathByTime(driver,"//*[@id=\"viewData\"]",5);
+        Thread.sleep(2000);
+        WebElement transactionsTable=driver.findElement(By.xpath("//*[@id=\"viewData\"]")).findElement(By.tagName("tbody"));
+        //----------------Selecting status as Successful--------------------
+        driver.findElement(By.xpath("//*[@id=\"viewData\"]")).findElement(By.xpath("thead/tr/th[7]/div/a")).click();
+        Thread.sleep(1000);
+        clickByXpath(driver,"//*[@id=\"select2-drop\"]/ul/li[2]");
+        Thread.sleep(2000);
+        List<WebElement> firstRow=transactionsTable.findElement(By.tagName("tr")).findElements(By.tagName("td"));
+        //-------------------Checking if there are any successful transactions------------------
+        if(firstRow.size()==13){
+            hoverByElement(driver,firstRow.get(12).findElement(By.xpath("div/button")));
+            Thread.sleep(1000);
+            firstRow.get(12).findElement(By.xpath("div/div/a[3]")).click();
+            int belowMinLimit=createRandomNum(1,Integer.parseInt(velocityDetails[0]));
+            //----------------------Scenario- Refund amount less than minimum limit-------------------
+            sendKeysByXpath(driver,"//*[@ng-model=\"refundAmount\"]",String.valueOf(belowMinLimit));
+            Thread.sleep(500);
+            clickByXpath(driver,"//*[@ng-show=\"showRefundButton\"]");
+            waitForElementXpathByTime(driver,"//*[@id=\"refund\"]/div/div/div[2]",20);
+            String message=driver.findElement(By.xpath("//*[@id=\"refund\"]/div/div/div[2]/p")).getText();
+            Screenshot(driver,message);
+        }
+    }
 
 }

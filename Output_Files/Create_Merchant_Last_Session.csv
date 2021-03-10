@@ -1,13 +1,3 @@
 Merchant Name,Integration Type,3DS,Non-3DS,FirstName,LastName,Email,CyberSource,MPGS,Tabby
-Merchant08125446,Aggregator Hosted,no,yes,FNameHRWGJR,LNameHRWGJR,padmawati.taddy@bankfab.com,yes,no,yes
-Merchant08125634,Aggregator Hosted,no,yes,FNameXRHNSB,LNameXRHNSB,padmawati.taddy@bankfab.com,no,no,yes
-Merchant08125821,Aggregator Hosted,yes,no,FNameADTLUY,LNameADTLUY,padmawati.taddy@bankfab.com,yes,no,yes
-Merchant08130007,Aggregator Hosted,yes,no,FNameOVFJNF,LNameOVFJNF,padmawati.taddy@bankfab.com,no,yes,yes
-Merchant08130153,Aggregator Hosted,yes,yes,FNameQEVAML,LNameQEVAML,padmawati.taddy@bankfab.com,yes,no,yes
-Merchant08130340,Aggregator Hosted,yes,yes,FNameYPTRWT,LNameYPTRWT,padmawati.taddy@bankfab.com,no,yes,yes
-Merchant08130527,JS Checkout,no,yes,FNameEACRTY,LNameEACRTY,padmawati.taddy@bankfab.com,yes,no,yes
-Merchant08130714,JS Checkout,no,yes,FNameSFLCSU,LNameSFLCSU,padmawati.taddy@bankfab.com,no,no,yes
-Merchant08130902,JS Checkout,yes,no,FNameNJRYZP,LNameNJRYZP,padmawati.taddy@bankfab.com,yes,no,yes
-Merchant08131049,JS Checkout,yes,no,FNameURPBLF,LNameURPBLF,padmawati.taddy@bankfab.com,no,yes,yes
-Merchant08131235,JS Checkout,yes,yes,FNameAOTDHT,LNameAOTDHT,padmawati.taddy@bankfab.com,yes,no,yes
-Merchant08131422,JS Checkout,yes,yes,FNameSHQDRQ,LNameSHQDRQ,padmawati.taddy@bankfab.com,no,yes,yes
+Agg Hosted - Cyber - Tabby - Non3Ds - 10161308,Aggregator Hosted,no,yes,FNameAGGcybNonThreeDs,LNameZFOPDN,padmawati.taddy@bankfab.com,yes,no,yes
+Agg Hosted - MPGS - Tabby - Non3Ds - 10161447,Aggregator Hosted,no,yes,FNameAGGmpgNonThreeDs,LNameMKPAEN,padmawati.taddy@bankfab.com,no,yes,yes

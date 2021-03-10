@@ -1,4 +1,5 @@
 package Functions;
+import com.google.common.base.Function;
 import org.openqa.selenium.*;
 import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -111,6 +112,11 @@ public class ClickElement {
         WebDriverWait wait = new WebDriverWait(driver, 100);
         WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
     }
+
+    public static void waitForElementXpathByTime(WebDriver driver, String xpath, long time) {
+        WebDriverWait wait = new WebDriverWait(driver, time);
+        WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
+    }
     public static boolean waitForElementXpathToLoad(WebDriver driver, String xpath) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         try{WebElement element = wait.until(ExpectedConditions.elementToBeClickable(By.xpath(xpath)));
@@ -118,6 +124,17 @@ public class ClickElement {
         catch (Exception e){
             return false;
         }
+    }
+
+    public static void hoverByXpath(WebDriver driver, String xpath) {
+        Actions actions = new Actions(driver);
+        WebElement target=driver.findElement(By.xpath(xpath));
+        actions.moveToElement(target).perform();
+    }
+
+    public static void hoverByElement(WebDriver driver, WebElement target) {
+        Actions actions = new Actions(driver);
+        actions.moveToElement(target).perform();
     }
 
     public static boolean isPresentElementByClass(WebDriver driver, String classname) {
@@ -128,7 +145,14 @@ public class ClickElement {
         }
     }
 
+    public static void waitForPageToLoad(WebDriver driver){
+        WebDriverWait wait=new WebDriverWait(driver, 30);
+        wait.until((Function<? super WebDriver, Boolean>) webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
+    }
 
+    public static void waitForElementToBeStale(WebDriver driver, String xpath) {
+        new WebDriverWait(driver, 30).until(ExpectedConditions.stalenessOf(driver.findElement(By.xpath(xpath))));
+    }
 
     public static void clickByXpath(WebDriver driver, String xpath){
         driver.findElement(By.xpath(xpath)).click();
@@ -140,4 +164,27 @@ public class ClickElement {
         driver.findElement(By.id(id)).click();
     }
 
+
+    public static WebElement waitForTwoElementsByXpath(WebDriver driver, String element1, String element2, int time) {
+        try {
+            for (int i = 0; i < time * 2; i++) {
+                try {
+                    if (driver.findElement(By.xpath(element1)).isDisplayed()) {
+                        return driver.findElement(By.xpath(element1));
+                    }
+                }catch (Exception e){}
+                try {
+                    if (driver.findElement(By.xpath(element2)).isDisplayed()) {
+                        return driver.findElement(By.xpath(element2));
+                    }
+                }catch (Exception e){}
+                Thread.sleep(500);
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+        return null;
+    }
 }
