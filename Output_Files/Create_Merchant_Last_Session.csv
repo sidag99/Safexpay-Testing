@@ -1,3 +1,3 @@
 Merchant Name,Integration Type,3DS,Non-3DS,FirstName,LastName,Email,CyberSource,MPGS,Tabby
-Agg Hosted - Cyber - Tabby - Non3Ds - 10161308,Aggregator Hosted,no,yes,FNameAGGcybNonThreeDs,LNameZFOPDN,padmawati.taddy@bankfab.com,yes,no,yes
-Agg Hosted - MPGS - Tabby - Non3Ds - 10161447,Aggregator Hosted,no,yes,FNameAGGmpgNonThreeDs,LNameMKPAEN,padmawati.taddy@bankfab.com,no,yes,yes
+Agg Hosted - Cyber - Tabby - 3Ds - Non3Ds - 121745,Aggregator Hosted,yes,yes,AGGcybMixThreeDs,ZBUOYC,padmawati.taddy@bankfab.com,yes,no,yes
+Agg Hosted - MPGS - Tabby - 3Ds - Non3Ds - 1217463,Aggregator Hosted,yes,yes,AGGmpgMixThreeDs,PNEIDQ,padmawati.taddy@bankfab.com,no,yes,yes

@@ -21,7 +21,7 @@ void closeWorkBook()  //Closes the workbook created
 public class ReadFromXlsFile {
 
     static HSSFWorkbook wb;
-    public void ReadXls(String path, int indexOfSheet) throws Exception {
+    public void ReadXls(String path){
 
         try {
 
@@ -42,7 +42,7 @@ public class ReadFromXlsFile {
 
     }
 
-    public void ViesCompleteSheet(int indexOfSheet) throws Exception {
+    public void ViesCompleteSheet(int indexOfSheet){
 
         try {
 
@@ -64,7 +64,7 @@ public class ReadFromXlsFile {
         }
     }
 
-    public String ReadCellFormulaXls(int indexOfSheet, int rowIndex, int columnIndex) throws Exception {
+    public String ReadCellFormulaXls(int indexOfSheet, int rowIndex, int columnIndex){
 
         HSSFSheet sh = wb.getSheetAt(indexOfSheet);
         return sh.getRow(rowIndex).getCell(columnIndex).getCellFormula();
