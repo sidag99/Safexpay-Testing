@@ -12,6 +12,7 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 import net.lingala.zip4j.ZipFile;
@@ -1284,7 +1285,7 @@ public class AdminFlow {
     @Description("This test is for simulating transactions")
     public void transactionSimulationPredefinedMerchants() throws Exception {
         boolean testFail=false;
-        ReadFromCSV lastRun=new ReadFromCSV(System.getProperty("user.dir") +"/Configuration_Files/Authorized_Merchants_Scenarios.csv");
+        ReadFromCSV lastRun=new ReadFromCSV(System.getProperty("user.dir") +"/Configuration_Files/Transactions/All Scenarios Created Merchants/Authorized_Merchants_Scenarios.csv");
         deleteContentsOfCsv("Output_Files/Transactions_Status_Aggregator_Last_Session.csv");
         deleteContentsOfCsv("Output_Files/Transactions_Status_JS_Last_Session.csv");
         for(int i=1;i<lastRun.SizeOfFile();i++)
@@ -1348,6 +1349,8 @@ public class AdminFlow {
     public void aggregatorHostedSimulator(String[] merchantData, String mode) throws Exception {
         String[] orderDetails = new String[11];
         orderDetails[10]="No";
+        boolean tabbyNegative=false;
+        boolean tabbyFail=false;
         ReadFromCSV portalInfo=new ReadFromCSV(System.getProperty("user.dir") + "\\Configuration_Files\\Transactions\\Payment Portals\\Aggregator_Hosted.csv");
         String aggregatorPortalUrl=portalInfo.ReadLineNumber(1)[0];
         driver.get(aggregatorPortalUrl);
@@ -1422,6 +1425,7 @@ public class AdminFlow {
                 else if(tabbyDetails[0].toLowerCase().contains("reject"))
                 {
                     stepName+=" Negative Scenario";
+                    tabbyNegative=true;
                 }
                 sendKeysByXpath(driver,"//*[@id=\"lp_emailid\"]",tabbyDetails[0]);
                 saveTextLog("Email added: "+tabbyDetails[0]);
@@ -1453,7 +1457,6 @@ public class AdminFlow {
                     Thread.sleep(2000);
                     clickByXpath(driver,"//*[@class=\"Button__container--ecb91 ScanConfirm__callToAction--0a8c1 Button__primary--54247\"]");
                     Thread.sleep(5000);
-                    boolean tabbyFail=false;
                     try {
                         if (driver.findElement(By.xpath("//*[@class=\"Rejected__title--6c840\"]")).isDisplayed()) {
                             tabbyFail=true;
@@ -1636,11 +1639,11 @@ public class AdminFlow {
         }
         finally {
 
+            String status="";
             try {
 
                 waitForPageToLoad(driver);
                 if(driver.getCurrentUrl().contains("https://fabpg.safexpay.com/simulator/response?")) {
-                    String status="";
 
                     status=wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"cs-main-body\"]/div/div/div/div[6]/div[1]/div/div"))).getText();
                     Thread.sleep(1000);
@@ -1667,33 +1670,46 @@ public class AdminFlow {
                     stepName+=" | Transaction AG REF: "+orderDetails[4];
                     stepName+=" | Transaction PG REF: "+orderDetails[5];
                     stepName+=" | Transaction Date & Time: "+orderDetails[6];
-                }
-                else {
-                    orderDetails[2]="Cancelled";
-                    orderDetails[7]=Integer.toString(amount);
-                    stepName+=" | Status: Cancelled";
-                    stepName+=" | Order: "+orderid;
-                    stepName+=" | Amount: "+amount;
-                }
+                    }
+                    else if(tabbyNegative&&tabbyFail){
+                        orderDetails[2]="Invalid";
+                        stepName+=" | Invalid";
+                        status="INVALID TRANSACTION";
+                        Screenshot(driver, "Invalid tabby transaction");
+                    }
+                    else {
+                        orderDetails[2]="Cancelled";
+                        orderDetails[7]=Integer.toString(amount);
+                        stepName+=" | Status: Cancelled";
+                        stepName+=" | Order: "+orderid;
+                        stepName+=" | Amount: "+amount;
+                    }
+                    Thread.sleep(2000);
+                    saveTextLog("Order Status: " + status);
+                    saveTextLog("Order ID: " + orderid);
 
-            }catch (Exception e)
-            {
-                Screenshot(driver,"");
-            }
-            finally {
-
-                initializeCsvWriter("Output_Files/Transactions_Status_Aggregator_All_Session.csv");
-                writeNextLineCsv(orderDetails);
-
-                initializeCsvWriter("Output_Files/Transactions_Status_Aggregator_Last_Session.csv");
-                writeNextLineCsv(orderDetails);
-                changeStepName(stepName);
-                if(merchantData[9].equalsIgnoreCase("no")&&orderDetails[2].toLowerCase().contains("success")){
-                    throw new Exception("Unverified Merchant Transaction");
+                }catch (Exception e)
+                {
+                    Screenshot(driver,"");
                 }
-                if(merchantData[9].equalsIgnoreCase("yes")&&!orderDetails[2].toLowerCase().contains("success")){
-                    throw new Exception("Transaction Failed");
-                }
+                finally {
+
+                    initializeCsvWriter("Output_Files/Transactions_Status_Aggregator_All_Session.csv");
+                    writeNextLineCsv(orderDetails);
+
+                    initializeCsvWriter("Output_Files/Transactions_Status_Aggregator_Last_Session.csv");
+                    writeNextLineCsv(orderDetails);
+                    changeStepName(stepName);
+
+                    if(tabbyNegative&&tabbyFail){
+                        throw new Exception("Tabby Negative Scenario");
+                    }
+                    else if(merchantData[9].equalsIgnoreCase("no")&&orderDetails[2].toLowerCase().contains("success")){
+                        throw new Exception("Unverified Merchant Transaction");
+                    }
+                    else if(merchantData[9].equalsIgnoreCase("yes")&&!orderDetails[2].toLowerCase().contains("success")){
+                        throw new Exception("Transaction Failed");
+                    }
             }
         }
     }
@@ -1703,6 +1719,8 @@ public class AdminFlow {
         String[] orderDetails = new String[8];
         orderDetails[7]="No";
         String orderId=null, status=null;
+        boolean tabbyNegative=false;
+        boolean tabbyFail=false;
         ReadFromCSV portalInfo = new ReadFromCSV(System.getProperty("user.dir") + "\\Configuration_Files\\Transactions\\Payment Portals\\JS_Checkout.csv");
         String aggregatorPortalUrl = portalInfo.ReadLineNumber(1)[0];
         driver.get(aggregatorPortalUrl);
@@ -1754,6 +1772,7 @@ public class AdminFlow {
                 }
                 else if(tabbyDetails[0].toLowerCase().contains("reject"))
                 {
+                    tabbyNegative=true;
                     stepName+=" Negative Scenario";
                 }
                 try {
@@ -1785,7 +1804,6 @@ public class AdminFlow {
                     Thread.sleep(2000);
                     clickByXpath(driver,"//*[@class=\"Button__container--ecb91 ScanConfirm__callToAction--0a8c1 Button__primary--54247\"]");
                     Thread.sleep(5000);
-                    boolean tabbyFail=false;
                     try {
                         if (driver.findElement(By.xpath("//*[@class=\"Rejected__title--6c840\"]")).isDisplayed()) {
                             tabbyFail=true;
@@ -2040,6 +2058,12 @@ public class AdminFlow {
                     status="UNAUTHORIZED TRANSACTION";
                     Screenshot(driver, "Payment Unauthorized");
                 }
+                else if(tabbyNegative&&tabbyFail){
+                    orderDetails[2]="Invalid";
+                    stepName+=" | Invalid";
+                    status="INVALID TRANSACTION";
+                    Screenshot(driver, "Invalid tabby transaction");
+                }
                 else {
                     orderDetails[2]="Cancelled";
                     stepName+=" | Cancelled";
@@ -2060,10 +2084,13 @@ public class AdminFlow {
                 initializeCsvWriter("Output_Files/Transactions_Status_JS_Last_Session.csv");
                 writeNextLineCsv(orderDetails);
                 changeStepName(stepName);
-                if(merchantData[9].equalsIgnoreCase("no")&&orderDetails[2].toLowerCase().contains("success")){
+                if(tabbyNegative&&tabbyFail){
+                    throw new Exception("Tabby Negative Scenario");
+                }
+                else if(merchantData[9].equalsIgnoreCase("no")&&orderDetails[2].toLowerCase().contains("success")){
                     throw new Exception("Unverified Merchant Transaction");
                 }
-                if(merchantData[9].equalsIgnoreCase("yes")&&!orderDetails[2].toLowerCase().contains("success")){
+                else if(merchantData[9].equalsIgnoreCase("yes")&&!orderDetails[2].toLowerCase().contains("success")){
                     throw new Exception("Transaction Failed");
                 }
             }
@@ -2080,7 +2107,7 @@ public class AdminFlow {
         ReadFromCSV csvCredentials = new ReadFromCSV(path);  //Reading credentials file
         String[] credential = csvCredentials.ReadLineNumber(1); //Reads first line containing login id and password
         String url=credential[0];
-        path = System.getProperty("user.dir") + "/Configuration_Files/Created_Merchants_Scenarios.csv";  //path to get login details file or credentials file
+        path = System.getProperty("user.dir") + "/Configuration_Files/Transactions/All Scenarios Created Merchants/Created_Merchants_Scenarios.csv";  //path to get login details file or credentials file
         csvCredentials = new ReadFromCSV(path);  //Reading credentials file
         ReadFromCSV velocity=new ReadFromCSV(System.getProperty("user.dir") + "/Configuration_Files/Create_Merchant_Data/Velocity_Details.csv");
         String[] velocityDetails=velocity.ReadLineNumber(1);
@@ -2101,7 +2128,7 @@ public class AdminFlow {
             }
         }
         //int randomTransaction=createRandomNum(1,SuccessfulTransactions.size()-1);
-        path = System.getProperty("user.dir") + "/Configuration_Files/Created_Merchants_Scenarios.csv";  //path to get login details file or credentials file
+        path = System.getProperty("user.dir") + "/Configuration_Files/Transactions/All Scenarios Created Merchants/Authorized_Merchants_Scenarios.csv";  //path to get login details file or credentials file
         ReadFromCSV authorizedMerchants = new ReadFromCSV(path);  //Reading authorized merchants file
         String [] authMerch;
 
@@ -2119,14 +2146,11 @@ public class AdminFlow {
                         login(credential[10], credential[11]);
                         Thread.sleep(1000);
                         clickByXpath(driver, "//*[@id=\"js-side-menu-0\"]");
-                        saveTextLog("MIS Button Clicked");
                         Thread.sleep(500);
                         driver.findElement(By.xpath("//*[@id=\"js-side-menu-0\"]")).findElement(By.xpath("//*[@href=\"#transactionMIS\"]")).click();
-                        saveTextLog("Transaction MIS Clicked");
                         try {
                             refundTransaction(velocityDetails, transactionDetails);
                         } catch (Exception e) {
-                            saveTextLog(e.getMessage());
                             softAssert.fail();
                             testFail = true;
                         }
@@ -2193,19 +2217,14 @@ public class AdminFlow {
                     }
 
                     //----------------------Scenario- Refund amount More than Maximum limit-------------------
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
                     firstRow = driver.findElements(By.xpath("//*[@id=\"viewData\"]/tbody/tr/td"));
                     hoverByElement(driver, firstRow.get(12).findElement(By.xpath("div/button")));
                     Thread.sleep(1000);
                     firstRow.get(12).findElement(By.xpath("div/div/a[3]")).click();
-
-                    saveTextLog("Refunding amount more than max limit");
                     Thread.sleep(3000);
-                    int temp = 0;
-                    if (transactionDetails.length > 6)
-                        temp = (int) Float.parseFloat(transactionDetails[7]);
-                    else temp = (int) Float.parseFloat(transactionDetails[4]);
-                    int overMaxLimit = createRandomNum(Integer.parseInt(velocityDetails[1]) + 1, temp);
+                    saveTextLog("Refunding amount more than max limit");
+                    int overMaxLimit = createRandomNum(Integer.parseInt(velocityDetails[1]) + 1, Integer.parseInt(velocityDetails[1]) + 100);
                     driver.findElement(By.xpath("//*[@ng-model=\"refundAmount\"]")).clear();
                     sendKeysByXpath(driver, "//*[@ng-model=\"refundAmount\"]", String.valueOf(overMaxLimit));
                     saveTextLog("Input Amount: " + overMaxLimit);
@@ -2235,10 +2254,15 @@ public class AdminFlow {
                     hoverByElement(driver, firstRow.get(12).findElement(By.xpath("div/button")));
                     Thread.sleep(1000);
                     firstRow.get(12).findElement(By.xpath("div/div/a[3]")).click();
-
                     saveTextLog("Refunding within refund limits");
                     Thread.sleep(3000);
-                    int inLimit = createRandomNum(Integer.parseInt(velocityDetails[0]), Integer.parseInt(velocityDetails[1]));
+                    int inLimit;
+                    if(amount>Integer.parseInt(velocityDetails[1]))
+                        inLimit=createRandomNum(Integer.parseInt(velocityDetails[0]), Integer.parseInt(velocityDetails[1]));
+                    else if(amount>Integer.parseInt(velocityDetails[0]))
+                        inLimit = createRandomNum(Integer.parseInt(velocityDetails[0]), amount);
+                    else
+                        inLimit=Integer.parseInt(velocityDetails[0]);
                     driver.findElement(By.xpath("//*[@ng-model=\"refundAmount\"]")).clear();
                     Thread.sleep(500);
                     sendKeysByXpath(driver, "//*[@ng-model=\"refundAmount\"]", String.valueOf(inLimit));
@@ -2276,7 +2300,6 @@ public class AdminFlow {
                     hoverByElement(driver, firstRow.get(12).findElement(By.xpath("div/button")));
                     Thread.sleep(1000);
                     firstRow.get(12).findElement(By.xpath("div/div/a[3]")).click();
-
                     saveTextLog("Refunding full amount");
                     Thread.sleep(3000);
                     clickByXpath(driver, "//*[@id=\"refund\"]/div/div/div[3]/div[3]/div/div[1]/label");
@@ -2304,10 +2327,8 @@ public class AdminFlow {
                         }
                     }
                 } catch (Exception e) {
-                    if (driver.findElement(By.xpath("//*[@id=\"refund\"]/div/div/div[2]")).getAttribute("style").equalsIgnoreCase("display: block;")) {
-                        String message = driver.findElement(By.xpath("//*[@id=\"refund\"]/div/div/div[2]/p")).getText();
-                        Screenshot(driver, message);
-                    }
+                    Screenshot(driver,"Refund Failed");
+                    System.out.println(e.getMessage());
                     throw new Exception("Refunds Failed");
                 }
 
@@ -2542,6 +2563,9 @@ public class AdminFlow {
         }
     }
 
-
+    @AfterTest
+    public void afterTest(){
+        driver.close();
+    }
 
 }
