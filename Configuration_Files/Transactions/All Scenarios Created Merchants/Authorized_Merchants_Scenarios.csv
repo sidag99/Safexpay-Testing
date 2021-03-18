@@ -1,0 +1,3 @@
+Merchant Name,Integration Type,3DS,Non-3DS,CyberSource,MPGS,Tabby,ID,Key,Authorized
+Merchant08125634,Aggregator Hosted,no,yes,no,yes,yes,202103080019,SCxWx9VzaD1Vobc919ZcgLVOLHMcepa5GnknBXvqyHw=,Yes
+Merchant08130714,JS Checkout,no,yes,no,yes,yes,202103080025,CTcid4R3Lc3JuF83tNL+dL58K4tZdW0FVPw9NEaHXo4=,Yes

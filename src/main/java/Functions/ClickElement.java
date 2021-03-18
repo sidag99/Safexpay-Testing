@@ -146,7 +146,7 @@ public class ClickElement {
     }
 
     public static void waitForPageToLoad(WebDriver driver){
-        WebDriverWait wait=new WebDriverWait(driver, 30);
+        WebDriverWait wait=new WebDriverWait(driver, 60);
         wait.until((Function<? super WebDriver, Boolean>) webDriver -> ((JavascriptExecutor) webDriver).executeScript("return document.readyState").equals("complete"));
     }
 

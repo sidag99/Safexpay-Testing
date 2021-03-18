@@ -1,0 +1,3 @@
+Merchant Name,Integration Type,3DS,Non-3DS,FirstName,LastName,Email,CyberSource,MPGS-3D,Tabby,User_ID,Password
+Merchant08125634,Aggregator Hosted,no,yes,FNameXRHNSB,LNameXRHNSB,padmawati.taddy@bankfab.com,no,yes,yes,FNameXRHNSB685,Test@123
+Merchant08130714,JS Checkout,no,yes,FNameSFLCSU,LNameSFLCSU,padmawati.taddy@bankfab.com,no,yes,yes,FNameSFLCSU337,Test@123
