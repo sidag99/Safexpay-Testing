@@ -5,13 +5,13 @@
     "name" : "Scripts.AdminFlow",
     "children" : [ {
       "name" : "transactionSimulationNewMerchants",
-      "uid" : "ddfb7ab9f26fcc87",
+      "uid" : "39fcc14e1c7a2319",
       "parentUid" : "34ac84f097313bd73999b3bf4264ccbf",
       "status" : "failed",
       "time" : {
-        "start" : 1616137764468,
-        "stop" : 1616138419368,
-        "duration" : 654900
+        "start" : 1616141705766,
+        "stop" : 1616142438034,
+        "duration" : 732268
       },
       "flaky" : false,
       "newFailed" : false,

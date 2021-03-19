@@ -1,2 +1,2 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"failed","Fri Mar 19 12:39:24 IST 2021","Fri Mar 19 12:50:19 IST 2021","654900","All Test Suite","D:/Selenium Testing/Safexpay Testing","Scripts.AdminFlow","Scripts.AdminFlow","transactionSimulationNewMerchants","Transaction Simulation","This test is for simulating transactions"
+"failed","Fri Mar 19 13:45:05 IST 2021","Fri Mar 19 13:57:18 IST 2021","732268","All Test Suite","Safexpay Testing","Scripts.AdminFlow","Scripts.AdminFlow","transactionSimulationNewMerchants","Transaction Simulation","This test is for simulating transactions"

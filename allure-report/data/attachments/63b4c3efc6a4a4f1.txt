@@ -1,1 +1,0 @@
-Merchant is not Authorized for the Payment.
