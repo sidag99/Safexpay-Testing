@@ -1,2 +1,2 @@
 "Status","Start Time","Stop Time","Duration in ms","Parent Suite","Suite","Sub Suite","Test Class","Test Method","Name","Description"
-"failed","Fri Mar 19 13:45:05 IST 2021","Fri Mar 19 13:57:18 IST 2021","732268","All Test Suite","Safexpay Testing","Scripts.AdminFlow","Scripts.AdminFlow","transactionSimulationNewMerchants","Transaction Simulation","This test is for simulating transactions"
+"passed","Wed Jun 02 14:09:45 IST 2021","Wed Jun 02 14:09:48 IST 2021","2934","All Test Suite","Safexpay Testing","Scripts.AdminFlow","Scripts.AdminFlow","openGoogle","Merchant Creation Flow","Merchant Creation Flow"

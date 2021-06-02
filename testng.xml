@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="All Test Suite">
+    <test verbose="2" preserve-order="true" name="Safexpay Testing">
+        <classes>
+            <class name="Scripts.AdminFlow">
+                <methods>
+                    <!--THIS WILL CREATE MERCHANTS, EDIT THEM, AUTHORIZE THEM, CREATE USER,
+                    CREATE EPP, UPLOAD MASTER BIN, MAKE TRANSACTION, CHECK EPP TRANSACTIONS-->
+                    <include name="createMerchant"/>
+                    <include name="editMerchant"/>
+                    <include name="checkerAdmin"/>
+                    <include name="createUser"/>
+<!--                    <include name="EPPflow"/>-->
+                    <include name="TransactionManagement"/>
+                    <include name="transactionSimulationNewMerchants"/>
+                    <include name="TransactionMIS"/>
+                </methods>
+            </class>
+        </classes>
+    </test>
+</suite>
