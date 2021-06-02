@@ -2,29 +2,29 @@
   "uid" : "98d3104e051c652961429bf95fa0b5d6",
   "name" : "suites",
   "children" : [ {
-    "name" : "All Test Suite",
+    "name" : "Default Suite",
     "children" : [ {
-      "name" : "Safexpay Testing",
+      "name" : "Driver.java",
       "children" : [ {
         "name" : "Scripts.AdminFlow",
         "children" : [ {
           "name" : "Merchant Creation Flow",
-          "uid" : "4a6219cc1ca5b2d1",
-          "parentUid" : "722e76706a1cfda904da246045a98dca",
+          "uid" : "6c795910d02f853d",
+          "parentUid" : "46dc85327e91509a3e667bb0e21e38fb",
           "status" : "passed",
           "time" : {
-            "start" : 1622623185680,
-            "stop" : 1622623188614,
-            "duration" : 2934
+            "start" : 1622635053051,
+            "stop" : 1622635056124,
+            "duration" : 3073
           },
           "flaky" : false,
           "newFailed" : false,
           "parameters" : [ ]
         } ],
-        "uid" : "722e76706a1cfda904da246045a98dca"
+        "uid" : "46dc85327e91509a3e667bb0e21e38fb"
       } ],
-      "uid" : "f049dec96aa4ad2cfe6a86d2e1a234f5"
+      "uid" : "145a24f38682dc3518f57f9ca3d6b522"
     } ],
-    "uid" : "7d0421919ebcae780c955830177c9415"
+    "uid" : "8399274b4bb69ec8699907dd6ef7de4e"
   } ]
 }

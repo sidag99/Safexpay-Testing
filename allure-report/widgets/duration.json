@@ -1,10 +1,10 @@
 [ {
-  "uid" : "4a6219cc1ca5b2d1",
+  "uid" : "6c795910d02f853d",
   "name" : "Merchant Creation Flow",
   "time" : {
-    "start" : 1622623185680,
-    "stop" : 1622623188614,
-    "duration" : 2934
+    "start" : 1622635053051,
+    "stop" : 1622635056124,
+    "duration" : 3073
   },
   "status" : "passed",
   "severity" : "critical"
